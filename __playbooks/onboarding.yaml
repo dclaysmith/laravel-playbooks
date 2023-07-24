@@ -1,0 +1,45 @@
+id: onboarding
+allow_concurrent: false
+allow_multiple: false
+target:
+    table: users
+    identifier: id
+triggers:
+    - name: AllUsers
+      exit_action: stop
+      buffer_minutes: 24
+steps:
+    - name: Send Welcome Email
+      id: welcome-email
+      if:
+        - IsAdmin
+      then:
+        - type: Mail
+          params:
+            mailable: WelcomeEmailAdmin
+      else:
+        - type: Mail
+          params:
+            mailable: WelcomeEmailUser
+      finally:
+        - type: Wait
+          params:
+            count: 24 # hours
+    - name: How To: Create First Meeting
+      id: how-to-create-first-meeting
+      if:
+          - NoMeetings
+      then:
+          - type: Mail
+            mailable: OnboardingCreateFirst
+          - type: Wait
+            params:
+              count: 24 # hours
+    - name: How To: How We Collect Signatures
+      id: how-we-collect-signatures
+      then:
+          - type: Mail
+            mailable: OnboardingSignatures
+          - type: Wait
+            params:
+              count: 24 # hours

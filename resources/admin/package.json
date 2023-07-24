@@ -1,0 +1,35 @@
+{
+    "name": "laravel-playbooks-vue-admin",
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/laravel-playbooks-vue-admin.umd.cjs",
+    "module": "./dist/laravel-playbooks-vue-admin.js",
+    "exports": {
+        ".": {
+            "import": "./dist/laravel-playbooks-vue-admin.js",
+            "require": "./dist/laravel-playbooks-vue-admin.umd.cjs"
+        },
+        "./style.css": "./dist/style.css"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "@prettier/plugin-php": "^0.19.1",
+        "@vitejs/plugin-vue": "^3.1.0",
+        "laravel-vite-plugin": "^0.6.0",
+        "sass": "^1.56.1",
+        "vite": "^3.0.0",
+        "spectre.css": "^0.5.9",
+        "@kyvg/vue3-notification": "^2.4.1",
+        "@tiptap/starter-kit": "^2.0.0-beta.199",
+        "@tiptap/vue-3": "^2.0.0-beta.199",
+        "lodash": "^4.17.21",
+        "text-clipper": "^2.2.0",
+        "vue-cookies": "^1.8.2",
+        "vue-router": "^4.1.5"
+    }
+}

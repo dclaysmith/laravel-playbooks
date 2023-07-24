@@ -2,9 +2,8 @@
 
 namespace Dclaysmith\LaravelPlaybooks\Providers;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\View;
-use Dclaysmith\LaravelCms\View\Composers\RenderComposer;
 
 class LaravelPlaybooksServiceProvider extends ServiceProvider
 {
@@ -16,62 +15,92 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . "/../../database/migrations");
 
         /**
-         * Load views created by this package
-         */
-
-
-        /**
-         * Publish Trigger Directory
+         * Load resources used by this package
          */
         $this->publishes(
             [
-                __DIR__ . "/../../src/Triggers" => app_path(
-                    "Packages/LaravelPlaybooks/Triggers"
-                ),
-            ],
-            [
                 __DIR__ . "/../../src/Actions" => app_path(
                     "Packages/LaravelPlaybooks/Actions"
+                ),
+                __DIR__ . "/../../src/Audiences" => app_path(
+                    "Packages/LaravelPlaybooks/Audiences"
+                ),
+                __DIR__ . "/../../src/Commands" => app_path(
+                    "Packages/LaravelPlaybooks/Commands"
+                ),
+                __DIR__ . "/../../src/Triggers" => app_path(
+                    "Packages/LaravelPlaybooks/Conditions"
+                ),
+                __DIR__ . "/../../src/Scheduler.php" => app_path(
+                    "Packages/LaravelPlaybooks/Scheduler.php"
+                ),
+                __DIR__ . "/../../src/Triggers" => app_path(
+                    "Packages/LaravelPlaybooks/Triggers"
                 ),
             ],
             "components"
         );
 
         /**
-         * Load Routes
-         */
-        $this->loadRoutesFrom(__DIR__ . "/../../routes/laravel-cms.php");
-
-        /**
-         * Publish Config
+         * Publish Config Directories
          */
         $this->publishes(
             [
-                __DIR__ . "/../../config/laravel-cms.php" => config_path(
-                    "laravel-cms.php"
+                __DIR__ . "/../../resources/playbooks" => app_path(
+                    "Packages/LaravelPlaybooks/Triggers"
                 ),
             ],
             "config"
         );
 
         /**
-         * Publish Admin
+         * Publish Resources
          */
         $this->publishes(
             [
-                __DIR__ . "/../../public/build/" => public_path(
-                    "vendor/laravel-cms"
+                __DIR__ . "/../../resources/playbooks" => resource_path(
+                    "vendor/laravel-playbooks"
                 ),
             ],
             "vue"
         );
+
+        /**
+         * Publish Config
+         */
         $this->publishes(
             [
-                __DIR__ . "/../../resources/admin/dist" => resource_path(
-                    "vendor/laravel-cms/admin"
+                __DIR__ . "/../../config/laravel-playbooks.php" => config_path(
+                    "laravel-playbooks.php"
                 ),
             ],
-            "vue"
+            "config"
         );
+
+
+
+        /**
+         * Auto register any commands defined by the user
+         */
+        if (is_dir(app_path(
+            "Packages/LaravelPlaybooks/Commands"
+        ))) {
+            $commands = array_map(function ($item) {
+                return "\\App\\Packages\\LaravelPlaybooks\\Commands\\" . str_replace(".php", "", $item);
+            }, preg_grep('/^([^.])/', scandir(app_path(
+                "Packages/LaravelPlaybooks/Commands"
+            ))));
+            $this->commands($commands);
+        }
+
+        if (file_exists(app_path(
+            "Packages/LaravelPlaybooks/Scheduler.php"
+        ))) {
+            $this->app->booted(function () {
+                $schedule = $this->app->make(Schedule::class);
+                $scheduler = new \App\Packages\LaravelPlaybooks\Scheduler($schedule);
+                $scheduler->run();
+            });
+        }
     }
 }

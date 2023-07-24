@@ -12,26 +12,161 @@ return new class extends Migration {
      */
     public function up()
     {
-        /**
-         * Cms Paths
-         * - Stores a history of any paths for a page. If matched will 30X redirect to current
-         */
-        Schema::create("lp_activities", function (Blueprint $table) {
+        
+        Schema::create("lp_playbooks", function (Blueprint $table) {
             $table->id();
-            // $table
-            //     ->foreignId("some_id")
-            //     ->constrained()
-            //     ->onDelete("CASCADE");
-            $table->string("target_id");
-            $table->string("sequence_id");
+            $table->string("name");
+            $table->string("target_class");
+            $table->boolean("allow_multiple");
+            $table->boolean("allow_concurrent");
+            $table->timestamps();
+        });
+        
+        Schema::create("lp_playbook_triggers", function (Blueprint $table) {
+            $table->id();
+            $table
+                ->foreignId("lp_playbook_id")
+                ->constrained()
+                ->onDelete("CASCADE");
+            $table->string("class_name");
+            $table->timestamps();
 
+            $table->index("lp_playbook_id");
+        });
+        
+        Schema::create("lp_playbook_steps", function (Blueprint $table) {
+            $table->id();
+            $table
+                ->foreignId("lp_playbook_id")
+                ->constrained()
+                ->onDelete("CASCADE");
+            $table->string("name");
+            $table->string("condition");
+            $table->integer("sort_order");
 
             $table->timestamps();
 
-            $table->index("target_id");
-
-            $table->unique(["target_id", "user_id"]);
+            $table->index("lp_playbook_id");
         });
+        
+        Schema::create("lp_playbook_actions", function (Blueprint $table) {
+            $table->id();
+            $table
+                ->foreignId("lp_playbook_id")
+                ->constrained()
+                ->onDelete("CASCADE");
+            $table
+                ->foreignId("lp_playbook_step_id")
+                ->constrained()
+                ->onDelete("CASCADE");
+                $table->string("name");
+            $table->string("case"); # IF | ELSE | FINALLY
+            $table->string("class_name");
+            $table->jsonb("configuration");
+            $table->integer("sort_order");
+
+            $table->timestamps();
+
+            $table->index("lp_playbook_id");
+            $table->index("lp_playbook_step_id");
+        });
+
+        Schema::create("lp_logs", function (Blueprint $table) {
+            $table->id();
+            $table
+                ->foreignId("lp_playbook_id")
+                ->constrained()
+                ->onDelete("CASCADE");
+            $table
+                ->foreignId("lp_playbook_step_id")
+                ->nullable(true)
+                ->constrained()
+                ->onDelete("CASCADE");
+            $table
+                ->foreignId("lp_playbook_action_id")
+                ->nullable(true)
+                ->constrained()
+                ->onDelete("CASCADE");
+            
+            $table->integer("status_id")
+                ->nullable(true); # PENDING | COMPLETE | ERROR
+
+            $table->string("message");
+            $table->jsonb("details");
+
+            $table->timestamps();
+
+            $table->index("lp_playbook_id");
+            $table->index("lp_playbook_step_id");            
+            $table->index("lp_playbook_action_id");
+        });
+
+        Schema::create("lp_instances", function (Blueprint $table) {
+            $table->id();
+            $table
+                ->foreignId("lp_playbook_id")
+                ->nullable(false)
+                ->constrained()
+                ->onDelete("CASCADE");
+            $table
+                ->string("target_id")
+                ->nullable(false);
+            $table->integer("status_id"); # IN PROGRESS | COMPLETE | FAILED
+
+            $table->timestamps();
+
+            $table->index("lp_playbook_id");
+            $table->index("lp_playbook_step_id");            
+            $table->index("lp_playbook_action_id");
+        });   
+
+        Schema::create("lp_instance_steps", function (Blueprint $table) {
+            $table->id();
+            $table
+                ->foreignId("lp_instance_id")
+                ->nullable(false)
+                ->constrained()
+                ->onDelete("CASCADE");
+            $table
+                ->foreignId("lp_playbook_step_id")
+                ->nullable(false)
+                ->constrained()
+                ->onDelete("CASCADE");
+                
+            $table->integer("status_id"); # PENDING | COMPLETE | FAILED
+
+            $table->timestamps();
+
+            $table->index("lp_playbook_step_id");            
+            $table->index("lp_instance_id");
+        }); 
+
+        Schema::create("lp_instance_actions", function (Blueprint $table) {
+            $table->id();
+            $table
+                ->foreignId("lp_instance_id")
+                ->nullable(false)
+                ->constrained()
+                ->onDelete("CASCADE");
+            $table
+                ->foreignId("lp_playbook_step_id")
+                ->nullable(false)
+                ->constrained()
+                ->onDelete("CASCADE");
+            $table
+                ->foreignId("lp_playbook_action_id")
+                ->nullable(false)
+                ->constrained()
+                ->onDelete("CASCADE");
+                
+            $table->integer("status_id"); # PENDING | COMPLETE | FAILED
+
+            $table->timestamps();
+
+            $table->index("lp_playbook_action_id"); 
+            $table->index("lp_playbook_step_id");            
+            $table->index("lp_instance_id");
+        });   
     }
 
     /**
@@ -41,6 +176,13 @@ return new class extends Migration {
      */
     public function down()
     {
-        // Schema::dropIfExists("table_name");
+        Schema::dropIfExists("lp_instance_actions");
+        Schema::dropIfExists("lp_instance_steps");
+        Schema::dropIfExists("lp_instances");
+        Schema::dropIfExists("lp_logs");
+        Schema::dropIfExists("lp_playbook_actions");
+        Schema::dropIfExists("lp_playbook_steps");
+        Schema::dropIfExists("lp_playbook_triggers");
+        Schema::dropIfExists("lp_playbooks");
     }
 };
