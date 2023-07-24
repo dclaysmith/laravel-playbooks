@@ -56,14 +56,6 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
         /**
          * Publish Resources
          */
-        $this->publishes(
-            [
-                __DIR__ . "/../../resources/playbooks" => resource_path(
-                    "vendor/laravel-playbooks"
-                ),
-            ],
-            "vue"
-        );
 
         /**
          * Publish Config
