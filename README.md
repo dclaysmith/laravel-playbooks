@@ -36,20 +36,20 @@ You can now work on the admin code in
 
 /Project/packages/LaravelPlaybooks/resources/admin/src
 
-Work in LaravelCms/Project/packages/LaravelCms
+Work in LaravelPlaybooks/Project/packages/LaravelPlaybooks
 
 # Develop on the admin site...
 
-> /LaravelCms/resources/admin
+> /LaravelPlaybooks/resources/admin
 
 # Build
 
-> Project/packages/LaravelCms/.deploy
+> Project/packages/LaravelPlaybooks/.deploy
 
 # BoardMinutesHq/v1/
 
 > composer update (get latest changes)
-> php artisan vendor:publish --provider="Dclaysmith\LaravelPlaybooks\Providers\LaravelCmsServiceProvider"
+> php artisan vendor:publish --provider="Dclaysmith\LaravelPlaybooks\Providers\LaravelPlaybooksServiceProvider"
 
 > BoardMeetingsHQ/v1/nova-components/LaravelPlaybooksNovaAdminTool/resources/js/pages/Tool.vue
 
@@ -61,7 +61,7 @@ composer update;
 
 rm -rf resources/js/vendor/laravel-cms/admin;
 
-php artisan vendor:publish --provider="Dclaysmith\LaravelCms\Providers\LaravelCmsServiceProvider"
+php artisan vendor:publish --provider="Dclaysmith\LaravelPlaybooks\Providers\LaravelPlaybooksServiceProvider"
 
 ./deploy
 

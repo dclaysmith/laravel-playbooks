@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string("name");
             $table->string("target_class");
             $table->boolean("allow_multiple");
+            $table->integer("multiple_buffer_days");
             $table->boolean("allow_concurrent");
             $table->timestamps();
         });

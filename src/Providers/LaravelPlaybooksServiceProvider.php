@@ -57,6 +57,12 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
          * Publish Resources
          */
 
+
+        /**
+         * Load Routes
+         */
+        $this->loadRoutesFrom(__DIR__ . "/../../routes/laravel-playbooks.php");
+
         /**
          * Publish Config
          */
@@ -68,8 +74,6 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
             ],
             "config"
         );
-
-
 
         /**
          * Auto register any commands defined by the user

@@ -1,22 +1,22 @@
 import { createWebHashHistory, createRouter } from "vue-router";
 
-import Pages from "./components/pages/index.vue";
+import Playbooks from "./components/playbooks/index.vue";
 
 const routes = [
     {
         path: "/",
         name: "Home",
-        component: Pages,
+        component: Playbooks,
     },
     {
-        path: "/pages",
-        name: "Pages",
-        component: Pages,
+        path: "/playbooks",
+        name: "Playbooks",
+        component: Playbooks,
     },
     // {
-    //     path: "/pages/:id",
-    //     name: "Page",
-    //     component: Page,
+    //     path: "/playbooks/:id",
+    //     name: "Playbook",
+    //     component: Playbook,
     //     props: (route) => ({ id: parseInt(route.params.id) }),
     // },
 ];
