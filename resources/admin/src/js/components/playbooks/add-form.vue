@@ -23,7 +23,7 @@
 import { ref, computed } from "vue";
 
 export default {
-    name: "LaravelPlaybooksAdminPlaybookAddForm",
+    name: "PlaybookAddForm",
     components: {},
     emits: ["add"],
     setup(props, { emit }) {

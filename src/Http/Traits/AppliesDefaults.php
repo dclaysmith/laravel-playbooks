@@ -9,7 +9,7 @@ trait AppliesDefaults
     public function applyDefaults(&$data, $defaults = [])
     {
         foreach ($defaults as $index => $defaultValue) {
-            if (!array_get($data, $index)) {
+            if (!data_get($data, $index)) {
                 $data[$index] = $defaultValue;
             }
         }

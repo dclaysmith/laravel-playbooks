@@ -44,19 +44,10 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
         /**
          * Publish Config Directories
          */
-        $this->publishes(
-            [
-                __DIR__ . "/../../resources/playbooks" => app_path(
-                    "Packages/LaravelPlaybooks/Triggers"
-                ),
-            ],
-            "config"
-        );
 
         /**
          * Publish Resources
          */
-
 
         /**
          * Load Routes

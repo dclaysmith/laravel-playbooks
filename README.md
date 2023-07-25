@@ -24,9 +24,14 @@ php artisan serve --host=localhost --port=8000
 cd /
 npm run dev
 
-#### Install the Package (LaravelPackageDev) (the api stuff)./deploy.sh
+#### Install the package in the LaravelPackageDev Project using composer
 
-Updates the composer-installed package in the sandbox project and publishes artifacts
+"repositories": [
+{
+"type": "path",
+"url": "../LaravelCms"
+}
+]
 
 #### Open
 

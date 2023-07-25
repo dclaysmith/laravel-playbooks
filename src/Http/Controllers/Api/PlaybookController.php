@@ -66,6 +66,14 @@ class PlaybookController extends Controller
     {
         $data = $request->validated();
 
+        $this->applyDefaults($data, [
+            "target_class" => 
+                config("laravel-playbooks.target"),
+            "allow_multiple" => false,
+            "allow_concurrent" => false,
+            "multiple_buffer_days" => 0
+        ]);
+
         $page = Playbook::firstOrCreate($data);
 
         $page->load([]);

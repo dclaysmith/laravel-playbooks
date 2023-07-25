@@ -1,5 +1,6 @@
 import { createWebHashHistory, createRouter } from "vue-router";
 
+import Playbook from "./components/playbooks/index.vue";
 import Playbooks from "./components/playbooks/index.vue";
 
 const routes = [
@@ -13,12 +14,12 @@ const routes = [
         name: "Playbooks",
         component: Playbooks,
     },
-    // {
-    //     path: "/playbooks/:id",
-    //     name: "Playbook",
-    //     component: Playbook,
-    //     props: (route) => ({ id: parseInt(route.params.id) }),
-    // },
+    {
+        path: "/playbooks/:id",
+        name: "Playbook",
+        component: Playbook,
+        props: (route) => ({ id: parseInt(route.params.id) }),
+    },
 ];
 
 const router = createRouter({

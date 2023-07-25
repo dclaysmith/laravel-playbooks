@@ -1,12 +1,12 @@
 <template>
     <tr>
-        <td>{{ template.id }}</td>
+        <td>{{ playbook.id }}</td>
         <td>
-            <router-link :to="'/templates/' + template.id">{{
-                template.name
+            <router-link :to="'/playbooks/' + playbook.id">{{
+                playbook.name
             }}</router-link>
         </td>
-        <td>{{ template.identifier }}</td>
+        <td>{{ playbook.identifier }}</td>
         <td>
             <button
                 @click.prevent="onDeleteClick"
@@ -22,12 +22,12 @@
 import { ref } from "vue";
 
 export default {
-    name: "LaravelPlaybooksAdminTemplatesListItem",
-    props: ["template"],
+    name: "PlaybooksListItem",
+    props: ["playbook"],
     emits: ["delete"],
     setup(props, { emit }) {
         async function onDeleteClick() {
-            emit("delete", props.template.id);
+            emit("delete", props.playbook.id);
         }
 
         return { onDeleteClick };

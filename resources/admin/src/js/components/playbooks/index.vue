@@ -1,17 +1,19 @@
 <template>
-    <h2>Add Playbook</h2>
-    <add-form @add="onAdd"></add-form>
-    <h2>Existing Playbooks</h2>
-    <table class="table" v-if="loaded && playbooksSorted.length">
-        <list-item
-            v-for="playbook in playbooksSorted"
-            :key="playbook.id"
-            :playbook="playbook"
-            @delete="onDelete"
-        ></list-item>
-    </table>
-    <p v-else-if="loaded">There are no playbooks.</p>
-    <p v-else>Loading...</p>
+    <div>
+        <h2>Add Playbook</h2>
+        <add-form @add="onAdd"></add-form>
+        <h2>Existing Playbooks</h2>
+        <table class="table" v-if="loaded && playbooksSorted.length">
+            <list-item
+                v-for="playbook in playbooksSorted"
+                :key="playbook.id"
+                :playbook="playbook"
+                @delete="onDelete"
+            ></list-item>
+        </table>
+        <p v-else-if="loaded">There are no playbooks.</p>
+        <p v-else>Loading...</p>
+    </div>
 </template>
 
 <script>
@@ -24,7 +26,7 @@ import ListItem from "./list-item.vue";
 import AddForm from "./add-form.vue";
 
 export default {
-    name: "LaravelPlaybooksAdminPlaybooks",
+    name: "Playbooks",
     components: {
         ListItem,
         AddForm,
