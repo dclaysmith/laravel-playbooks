@@ -5,12 +5,11 @@ namespace Dclaysmith\LaravelPlaybooks\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use Dclaysmith\LaravelPlaybooks\Models\Playbook;
+use Dclaysmith\LaravelPlaybooks\Models\PlaybookTrigger;
 
-use Dclaysmith\LaravelPlaybooks\Http\Requests\Api\Playbook\StoreRequest;
-use Dclaysmith\LaravelPlaybooks\Http\Requests\Api\Playbook\UpdateRequest;
+use Dclaysmith\LaravelPlaybooks\Http\Requests\Api\PlaybookTrigger\StoreRequest;
 
-use Dclaysmith\LaravelPlaybooks\Http\Resources\PlaybookResource;
+use Dclaysmith\LaravelPlaybooks\Http\Resources\PlaybookTriggerResource;
 
 use Dclaysmith\LaravelPlaybooks\Http\Traits\AppliesDefaults;
 use Dclaysmith\LaravelPlaybooks\Http\Traits\AppliesFilters;
@@ -20,7 +19,7 @@ use Dclaysmith\LaravelPlaybooks\Http\Traits\AppliesSorts;
 
 use Dclaysmith\LaravelPlaybooks\Http\Filters\Base as Filter;
 
-class PlaybookController extends Controller
+class PlaybookTriggerController extends Controller
 {
     use AppliesDefaults,
         AppliesFilters,
@@ -35,13 +34,13 @@ class PlaybookController extends Controller
      */
     public function index(Request $request)
     {
-        $builder = Playbook::query();
+        $builder = PlaybookTrigger::query();
 
-        $this->applyIncludes($builder, $request, []);
+        $this->applyIncludes($builder, $request, ["playbook"]);
 
         $this->applyFilters($builder, $request, []);
 
-        $this->applySorts($builder, $request, ["name"], [], ["name"]);
+        $this->applySorts($builder, $request, [], [], []);
 
         return $this->applyPagination($builder, $request);
     }
@@ -67,18 +66,13 @@ class PlaybookController extends Controller
         $data = $request->validated();
 
         $this->applyDefaults($data, [
-            "target_class" => 
-                config("laravel-playbooks.target"),
-            "allow_multiple" => false,
-            "allow_concurrent" => false,
-            "multiple_buffer_days" => 0
         ]);
 
-        $playbook = Playbook::firstOrCreate($data);
+        $playbookTrigger = PlaybookTrigger::firstOrCreate($data);
 
-        $playbook->load([]);
+        $playbookTrigger->load(["playbook"]);
 
-        return new PlaybookResource($playbook, 201);
+        return new PlaybookTriggerResource($playbookTrigger, 201);
     }
 
     /**
@@ -89,10 +83,9 @@ class PlaybookController extends Controller
      */
     public function show($id)
     {
-        $playbook = Playbook::with([
-        ])->findOrFail($id);
+        $playbookTrigger = PlaybookTrigger::with(["playbook"])->findOrFail($id);
 
-        return new PlaybookResource($playbook, 200);
+        return new PlaybookTriggerResource($playbookTrigger, 200);
     }
 
     /**
@@ -115,17 +108,7 @@ class PlaybookController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        $data = $request->validated();
 
-        $playbook = Playbook::findOrFail($id);
-
-        $playbook->fill($data);
-
-        $playbook->save();
-
-        $playbook->load([]);
-
-        return new PlaybookResource($playbook, 200);
     }
 
     /**
@@ -136,9 +119,9 @@ class PlaybookController extends Controller
      */
     public function destroy($id)
     {
-        $playbook = Playbook::findOrFail($id);
+        $playbookTrigger = PlaybookTrigger::findOrFail($id);
 
-        $playbook->delete();
+        $playbookTrigger->delete();
 
         return response(200);
     }

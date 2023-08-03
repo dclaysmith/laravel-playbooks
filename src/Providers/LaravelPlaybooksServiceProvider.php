@@ -28,14 +28,14 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
                 __DIR__ . "/../../src/Commands" => app_path(
                     "Packages/LaravelPlaybooks/Commands"
                 ),
-                __DIR__ . "/../../src/Triggers" => app_path(
+                __DIR__ . "/../../src/Conditions" => app_path(
                     "Packages/LaravelPlaybooks/Conditions"
                 ),
                 __DIR__ . "/../../src/Scheduler.php" => app_path(
                     "Packages/LaravelPlaybooks/Scheduler.php"
                 ),
-                __DIR__ . "/../../src/Triggers" => app_path(
-                    "Packages/LaravelPlaybooks/Triggers"
+                __DIR__ . "/../../src/Triggers/AllUsersTrigger.php" => app_path(
+                    "Packages/LaravelPlaybooks/Triggers/AllUsersTrigger.php"
                 ),
             ],
             "components"

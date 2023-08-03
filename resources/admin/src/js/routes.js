@@ -1,7 +1,9 @@
 import { createWebHashHistory, createRouter } from "vue-router";
 
-import Playbook from "./components/playbooks/index.vue";
+import Playbook from "./components/playbook/index.vue";
 import Playbooks from "./components/playbooks/index.vue";
+import Trigger from "./components/trigger/index.vue";
+import Triggers from "./components/triggers/index.vue";
 
 const routes = [
     {
@@ -19,6 +21,17 @@ const routes = [
         name: "Playbook",
         component: Playbook,
         props: (route) => ({ id: parseInt(route.params.id) }),
+    },
+    {
+        path: "/triggers",
+        name: "Triggers",
+        component: Triggers,
+    },
+    {
+        path: "/triggers/:className",
+        name: "Trigger",
+        component: Trigger,
+        props: (route) => ({ className: route.params.className }),
     },
 ];
 
