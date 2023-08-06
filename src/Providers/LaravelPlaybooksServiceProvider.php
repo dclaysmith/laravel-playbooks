@@ -22,20 +22,17 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
                 __DIR__ . "/../../src/Actions" => app_path(
                     "Packages/LaravelPlaybooks/Actions"
                 ),
-                __DIR__ . "/../../src/Audiences" => app_path(
-                    "Packages/LaravelPlaybooks/Audiences"
+                __DIR__ . "/../../src/Audiences/AllUsersAudience.php" => app_path(
+                    "Packages/LaravelPlaybooks/Audiences/AllUsersAudience.php"
                 ),
-                __DIR__ . "/../../src/Commands" => app_path(
-                    "Packages/LaravelPlaybooks/Commands"
+                __DIR__ . "/../../src/Conditions/IsAdminCondition.php" => app_path(
+                    "Packages/LaravelPlaybooks/Conditions/IsAdminCondition.php"
                 ),
-                __DIR__ . "/../../src/Conditions" => app_path(
-                    "Packages/LaravelPlaybooks/Conditions"
-                ),
+                // __DIR__ . "/../../src/Commands" => app_path(
+                //     "Packages/LaravelPlaybooks/Commands"
+                // ),
                 __DIR__ . "/../../src/Scheduler.php" => app_path(
                     "Packages/LaravelPlaybooks/Scheduler.php"
-                ),
-                __DIR__ . "/../../src/Triggers/AllUsersTrigger.php" => app_path(
-                    "Packages/LaravelPlaybooks/Triggers/AllUsersTrigger.php"
                 ),
             ],
             "components"
@@ -67,17 +64,12 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
         );
 
         /**
-         * Auto register any commands defined by the user
+         * Auto register commands
          */
-        if (is_dir(app_path(
-            "Packages/LaravelPlaybooks/Commands"
-        ))) {
-            $commands = array_map(function ($item) {
-                return "\\App\\Packages\\LaravelPlaybooks\\Commands\\" . str_replace(".php", "", $item);
-            }, preg_grep('/^([^.])/', scandir(app_path(
-                "Packages/LaravelPlaybooks/Commands"
-            ))));
-            $this->commands($commands);
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \Dclaysmith\LaravelPlaybooks\Commands\RunAudiences::class,
+            ]);
         }
 
         if (file_exists(app_path(

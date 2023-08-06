@@ -1,15 +1,15 @@
 <template>
     <div>
         <add-form @add="onAdd"></add-form>
-        <template v-if="loaded && stepsSorted.length">
-            <playbook-step
-                v-for="step in stepsSorted"
-                :key="step.id"
-                :step="step"
+        <template v-if="loaded && actionsSorted.length">
+            <list-item
+                v-for="action in actionsSorted"
+                :key="action.id"
+                :action="action"
                 @delete="onDelete"
-            ></playbook-step>
+            ></list-item>
         </template>
-        <p v-else-if="loaded">There are no steps.</p>
+        <p v-else-if="loaded">There are no actions.</p>
         <p v-else>Loading...</p>
     </div>
 </template>
@@ -19,21 +19,21 @@ import { ref, computed, inject } from "vue";
 import { notify } from "@kyvg/vue3-notification";
 import { sortBy as _sortBy } from "lodash";
 
-import PlaybookStep from "./step/index.vue";
+import ListItem from "./list-item.vue";
 import AddForm from "./add-form.vue";
 
 export default {
-    name: "Steps",
+    name: "Actions",
     components: {
-        PlaybookStep,
+        ListItem,
         AddForm,
     },
-    props: ["playbook"],
+    props: ["step"],
     setup(props, { emit }) {
         /**
          * Reactive Properties
          */
-        const playbookSteps = ref([]);
+        const playbookActions = ref([]);
         const loaded = ref(false);
         const submitting = ref(false);
         const $cookies = inject("$cookies");
@@ -41,26 +41,30 @@ export default {
         /**
          * Methods
          */
-        async function fetchPlaybookStepList() {
+        async function fetchPlaybookActionList() {
             const response = await fetch(
-                "/api/lp-playbook-steps?lp_playbooks=" + props.playbook.id
+                "/api/lp-playbook-actions?lp_playbook_id=" +
+                    props.step.playbook_id +
+                    "&lp_playbook_step_id=" +
+                    props.step.id
             );
             const json = await response.json();
-            playbookSteps.value = json.data;
+            playbookActions.value = json.data;
             loaded.value = true;
         }
 
-        async function onAdd(playbookStep) {
-            playbookStep.lp_playbook_id = props.playbook.id;
+        async function onAdd(playbookAction) {
+            playbookAction.lp_playbook_id = props.step.lp_playbook_id;
+            playbookAction.lp_playbook_step_id = props.step.id;
             submitting.value = true;
-            const response = await fetch("/api/lp-playbook-steps", {
+            const response = await fetch("/api/lp-playbook-actions", {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                     "X-XSRF-TOKEN": $cookies.get("XSRF-TOKEN"),
                 },
                 method: "POST",
-                body: JSON.stringify(playbookStep),
+                body: JSON.stringify(playbookAction),
             });
             submitting.value = false;
 
@@ -75,15 +79,17 @@ export default {
             }
 
             notify({
-                title: "New playbook step added.",
+                title: "New playbook action added.",
                 type: "success",
             });
 
-            playbookSteps.value.push(Object.assign(playbookStep, json.data));
+            playbookActions.value.push(
+                Object.assign(playbookAction, json.data)
+            );
         }
 
         async function onDelete(id) {
-            const response = await fetch("/api/lp-playbook-steps/" + id, {
+            const response = await fetch("/api/lp-playbook-actions/" + id, {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
@@ -100,29 +106,29 @@ export default {
             }
 
             notify({
-                title: "Step deleted.",
+                title: "Action deleted.",
                 type: "warn",
             });
 
-            var indexToRemove = playbookSteps.value
+            var indexToRemove = playbookActions.value
                 .map((item) => item.id)
                 .indexOf(id);
-            ~indexToRemove && playbookSteps.value.splice(indexToRemove, 1);
+            ~indexToRemove && playbookActions.value.splice(indexToRemove, 1);
         }
 
-        fetchPlaybookStepList();
+        fetchPlaybookActionList();
 
         /**
          * Updated
          */
-        const stepsSorted = computed(() => {
-            return _sortBy(playbookSteps.value || [], (step) => {
-                return playbookSteps.class_name;
+        const actionsSorted = computed(() => {
+            return _sortBy(playbookActions.value || [], (action) => {
+                return playbookActions.class_name;
             });
         });
 
         return {
-            stepsSorted,
+            actionsSorted,
             loaded,
             onAdd,
             onDelete,

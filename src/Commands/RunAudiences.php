@@ -1,24 +1,24 @@
 <?php
 
-namespace Dclaysmith\LaravelPlaybooks\Commands\Console\Commands;
+namespace Dclaysmith\LaravelPlaybooks\Commands;
 
 use Illuminate\Console\Command;
 
-class Run extends Command
+class RunAudiences extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'laravel-playbooks:run';
+    protected $signature = 'laravel-playbooks:run-audiences';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Run Laravel Playbooks Package.';
+    protected $description = 'Run any playbooks that should be triggered.';
 
     /**
      * Create a new command instance.
@@ -37,19 +37,6 @@ class Run extends Command
      */
     public function handle()
     {
-        \Log::debug('PING');
-
-        /**
-         * Audience New Playbooks
-         */
-
-        /**
-         * Create Playbook Actions
-         */
-
-        /**
-         * Execute Playbook Actions
-         */
+        dispatch(new \Dclaysmith\LaravelPlaybooks\Jobs\RunAudiences());
     }
 }
-

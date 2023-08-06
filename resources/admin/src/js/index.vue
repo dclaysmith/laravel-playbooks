@@ -1,9 +1,11 @@
 <template>
-    <notifications />
-    <div class="playbooks-container">
-        <div class="playbooks-menu"><admin-menu></admin-menu></div>
-        <div class="playbooks-content">
-            <router-view></router-view>
+    <div>
+        <notifications />
+        <div class="playbooks-container">
+            <div class="playbooks-menu"><admin-menu></admin-menu></div>
+            <div class="playbooks-content">
+                <router-view></router-view>
+            </div>
         </div>
     </div>
 </template>

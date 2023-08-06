@@ -26,7 +26,7 @@
                             v-model="playbook.allow_multiple"
                         />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" v-if="playbook.allow_multiple">
                         <label class="form-label" for="allow_multiple"
                             >Allow Concurrent Instances</label
                         >
@@ -65,7 +65,9 @@
                     </div>
                 </fieldset>
             </form>
-            <playbook-triggers :playbook="playbook"></playbook-triggers>
+            <h2>Audiences</h2>
+            <playbook-audiences :playbook="playbook"></playbook-audiences>
+            <h2>Steps</h2>
             <playbook-steps :playbook="playbook"></playbook-steps>
         </template>
         <p v-else>Loading...</p>
@@ -73,16 +75,16 @@
 </template>
 
 <script>
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, inject } from "vue";
 import { notify } from "@kyvg/vue3-notification";
 import { sortBy as _sortBy, filter as _filter, chain as _chain } from "lodash";
 
-import PlaybookTriggers from "./triggers/index.vue";
+import PlaybookAudiences from "./audiences/index.vue";
 import PlaybookSteps from "./steps/index.vue";
 
 export default {
     name: "Playbook",
-    components: { PlaybookTriggers, PlaybookSteps },
+    components: { PlaybookAudiences, PlaybookSteps },
     props: ["id"],
     setup(props) {
         /**
@@ -92,6 +94,7 @@ export default {
         const playbookOriginal = ref(null);
         const submitting = ref(false);
         const loading = ref(false);
+        const $cookies = inject("$cookies");
 
         /**
          * Methods
@@ -103,6 +106,15 @@ export default {
             loading.value = false;
             playbook.value = json.data;
             playbookOriginal.value = Object.assign({}, playbook.value);
+
+            /**
+             * Watch
+             */
+            watch(playbook.value, (newValue) => {
+                if (false == newValue.allow_multiple) {
+                    playbook.value.allow_concurrent = false;
+                }
+            });
         }
 
         async function onSubmit() {

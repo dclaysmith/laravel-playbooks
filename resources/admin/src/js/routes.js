@@ -2,8 +2,9 @@ import { createWebHashHistory, createRouter } from "vue-router";
 
 import Playbook from "./components/playbook/index.vue";
 import Playbooks from "./components/playbooks/index.vue";
-import Trigger from "./components/trigger/index.vue";
-import Triggers from "./components/triggers/index.vue";
+import Audience from "./components/audience/index.vue";
+import Audiences from "./components/audiences/index.vue";
+import Conditions from "./components/conditions/index.vue";
 
 const routes = [
     {
@@ -23,15 +24,20 @@ const routes = [
         props: (route) => ({ id: parseInt(route.params.id) }),
     },
     {
-        path: "/triggers",
-        name: "Triggers",
-        component: Triggers,
+        path: "/audiences",
+        name: "Audiences",
+        component: Audiences,
     },
     {
-        path: "/triggers/:className",
-        name: "Trigger",
-        component: Trigger,
+        path: "/audiences/:className",
+        name: "Audience",
+        component: Audience,
         props: (route) => ({ className: route.params.className }),
+    },
+    {
+        path: "/conditions",
+        name: "Conditions",
+        component: Conditions,
     },
 ];
 

@@ -37,7 +37,6 @@ class Ping extends Command
      */
     public function handle()
     {
-        \Log::debug('PING');
+        echo "PONG";
     }
 }
-

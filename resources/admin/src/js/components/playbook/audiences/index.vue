@@ -1,15 +1,20 @@
 <template>
     <div>
         <add-form @add="onAdd"></add-form>
-        <template v-if="loaded && stepsSorted.length">
-            <playbook-step
-                v-for="step in stepsSorted"
-                :key="step.id"
-                :step="step"
+        <table class="table" v-if="loaded && audiencesSorted.length">
+            <tr>
+                <th>Id</th>
+                <th colspan="1">Audience</th>
+                <th colspan="2">Exit Action</th>
+            </tr>
+            <list-item
+                v-for="audience in audiencesSorted"
+                :key="audience.id"
+                :audience="audience"
                 @delete="onDelete"
-            ></playbook-step>
-        </template>
-        <p v-else-if="loaded">There are no steps.</p>
+            ></list-item>
+        </table>
+        <p v-else-if="loaded">There are no audiences.</p>
         <p v-else>Loading...</p>
     </div>
 </template>
@@ -19,13 +24,13 @@ import { ref, computed, inject } from "vue";
 import { notify } from "@kyvg/vue3-notification";
 import { sortBy as _sortBy } from "lodash";
 
-import PlaybookStep from "./step/index.vue";
+import ListItem from "./list-item.vue";
 import AddForm from "./add-form.vue";
 
 export default {
-    name: "Steps",
+    name: "Audiences",
     components: {
-        PlaybookStep,
+        ListItem,
         AddForm,
     },
     props: ["playbook"],
@@ -33,7 +38,7 @@ export default {
         /**
          * Reactive Properties
          */
-        const playbookSteps = ref([]);
+        const playbookAudiences = ref([]);
         const loaded = ref(false);
         const submitting = ref(false);
         const $cookies = inject("$cookies");
@@ -41,26 +46,26 @@ export default {
         /**
          * Methods
          */
-        async function fetchPlaybookStepList() {
+        async function fetchPlaybookAudienceList() {
             const response = await fetch(
-                "/api/lp-playbook-steps?lp_playbooks=" + props.playbook.id
+                "/api/lp-playbook-audiences?lp_playbooks=" + props.playbook.id
             );
             const json = await response.json();
-            playbookSteps.value = json.data;
+            playbookAudiences.value = json.data;
             loaded.value = true;
         }
 
-        async function onAdd(playbookStep) {
-            playbookStep.lp_playbook_id = props.playbook.id;
+        async function onAdd(playbookAudience) {
+            playbookAudience.lp_playbook_id = props.playbook.id;
             submitting.value = true;
-            const response = await fetch("/api/lp-playbook-steps", {
+            const response = await fetch("/api/lp-playbook-audiences", {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                     "X-XSRF-TOKEN": $cookies.get("XSRF-TOKEN"),
                 },
                 method: "POST",
-                body: JSON.stringify(playbookStep),
+                body: JSON.stringify(playbookAudience),
             });
             submitting.value = false;
 
@@ -75,15 +80,17 @@ export default {
             }
 
             notify({
-                title: "New playbook step added.",
+                title: "New playbook audience added.",
                 type: "success",
             });
 
-            playbookSteps.value.push(Object.assign(playbookStep, json.data));
+            playbookAudiences.value.push(
+                Object.assign(playbookAudience, json.data)
+            );
         }
 
         async function onDelete(id) {
-            const response = await fetch("/api/lp-playbook-steps/" + id, {
+            const response = await fetch("/api/lp-playbook-audiences/" + id, {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
@@ -100,29 +107,29 @@ export default {
             }
 
             notify({
-                title: "Step deleted.",
+                title: "Audience deleted.",
                 type: "warn",
             });
 
-            var indexToRemove = playbookSteps.value
+            var indexToRemove = playbookAudiences.value
                 .map((item) => item.id)
                 .indexOf(id);
-            ~indexToRemove && playbookSteps.value.splice(indexToRemove, 1);
+            ~indexToRemove && playbookAudiences.value.splice(indexToRemove, 1);
         }
 
-        fetchPlaybookStepList();
+        fetchPlaybookAudienceList();
 
         /**
          * Updated
          */
-        const stepsSorted = computed(() => {
-            return _sortBy(playbookSteps.value || [], (step) => {
-                return playbookSteps.class_name;
+        const audiencesSorted = computed(() => {
+            return _sortBy(playbookAudiences.value || [], (audience) => {
+                return playbookAudiences.class_name;
             });
         });
 
         return {
-            stepsSorted,
+            audiencesSorted,
             loaded,
             onAdd,
             onDelete,

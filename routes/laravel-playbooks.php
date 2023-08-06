@@ -3,19 +3,21 @@
 use Illuminate\Support\Facades\Route;
 
 use Dclaysmith\LaravelPlaybooks\Http\Controllers\Api\PlaybookController;
-use Dclaysmith\LaravelPlaybooks\Http\Controllers\Api\PlaybookTriggerController;
-use Dclaysmith\LaravelPlaybooks\Http\Controllers\Api\TriggerController;
-use Dclaysmith\LaravelPlaybooks\Http\Controllers\Api\TriggerDataController;
-// use Dclaysmith\LaravelPlaybooks\Http\Controllers\Api\PlaybookStepContrller;
-// use Dclaysmith\LaravelPlaybooks\Http\Controllers\Api\PlaybookStepActionContrller;
+use Dclaysmith\LaravelPlaybooks\Http\Controllers\Api\PlaybookAudienceController;
+use Dclaysmith\LaravelPlaybooks\Http\Controllers\Api\AudienceController;
+use Dclaysmith\LaravelPlaybooks\Http\Controllers\Api\AudienceDataController;
+use Dclaysmith\LaravelPlaybooks\Http\Controllers\Api\ConditionController;
+use Dclaysmith\LaravelPlaybooks\Http\Controllers\Api\PlaybookStepController;
+// use Dclaysmith\LaravelPlaybooks\Http\Controllers\Api\PlaybookStepActionContr0ller;
 
 Route::middleware("web")->group(function () {
     Route::group(["prefix" => "api"], function () {
         Route::resource("lp-playbooks", PlaybookController::class);
-        Route::resource("lp-playbook-triggers",  PlaybookTriggerController::class);
-        Route::resource("lp-triggers",  TriggerController::class);
-        Route::resource("lp-trigger-data",  TriggerDataController::class);
-        // Route::resource("lp-playbook-steps", PlaybookStepContrller::class);
-        // Route::resource("lp-playbook-step-actions", PlaybookStepActionContrller::class);
+        Route::resource("lp-playbook-audiences",  PlaybookAudienceController::class);
+        Route::resource("lp-audiences",  AudienceController::class);
+        Route::resource("lp-audience-data",  AudienceDataController::class);
+        Route::resource("lp-conditions",  ConditionController::class);
+        Route::resource("lp-playbook-steps", PlaybookStepController::class);
+        // Route::resource("lp-playbook-step-actions", PlaybookStepActionController::class);
     });
 });

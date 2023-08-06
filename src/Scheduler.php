@@ -4,8 +4,8 @@ namespace App\Packages\LaravelPlaybooks;
 
 use Dclaysmith\LaravelPlaybooks\Jobs\AddActions;
 use Dclaysmith\LaravelPlaybooks\Jobs\RunActions;
-use Dclaysmith\LaravelPlaybooks\Jobs\RunTriggers;
-use Dclaysmith\LaravelPlaybooks\Jobs\Trigger;
+use Dclaysmith\LaravelPlaybooks\Jobs\RunAudiences;
+use Dclaysmith\LaravelPlaybooks\Jobs\Audience;
 
 class Scheduler
 {    
@@ -19,12 +19,12 @@ class Scheduler
     public function run(): void {
         
         // Activates Playbooks
-        $schedule->job(new RunTriggers)->everyFiveMinutes();
+        $this->schedule->job(new RunAudiences)->everyFiveMinutes();
 
         // Adds the next actions to be executed based on the definition
-        $schedule->job(new AddActions)->everyFiveMinutes();
+        $this->schedule->job(new AddActions)->everyFiveMinutes();
 
         // Executes the pending actions
-        $schedule->job(new RunActions)->everyFiveMinutes();
+        $this->schedule->job(new RunActions)->everyFiveMinutes();
     }
-}
+}   
