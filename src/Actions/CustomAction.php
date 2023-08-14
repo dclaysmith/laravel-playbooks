@@ -1,10 +1,10 @@
 <?php
 
-namespace Dclaysmith\LaravelPlaybooks\Actions;
+namespace App\Packages\LaravelPlaybooks\Actions;
 
 use Dclaysmith\LaravelPlaybooks\Actions\Action;
 
-class EndPlaybookAction extends Action
+class CustomAction extends Action
 {
 
     public function do(): void

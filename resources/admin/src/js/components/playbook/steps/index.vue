@@ -1,11 +1,11 @@
 <template>
     <div>
         <add-form @add="onAdd"></add-form>
-        <template v-if="loaded && stepsSorted.length">
+        <template v-if="loaded && playbookStepsSorted.length">
             <playbook-step
-                v-for="step in stepsSorted"
-                :key="step.id"
-                :step="step"
+                v-for="playbookStep in playbookStepsSorted"
+                :key="playbookStep.id"
+                :playbook-step="playbookStep"
                 @delete="onDelete"
             ></playbook-step>
         </template>
@@ -115,14 +115,14 @@ export default {
         /**
          * Updated
          */
-        const stepsSorted = computed(() => {
+        const playbookStepsSorted = computed(() => {
             return _sortBy(playbookSteps.value || [], (step) => {
                 return playbookSteps.class_name;
             });
         });
 
         return {
-            stepsSorted,
+            playbookStepsSorted,
             loaded,
             onAdd,
             onDelete,

@@ -4,7 +4,7 @@ namespace Dclaysmith\LaravelPlaybooks\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PlaybookStepResource extends JsonResource
+class PlaybookActionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,12 +15,16 @@ class PlaybookStepResource extends JsonResource
     public function toArray($request)
     {
         return [
+            "action_class_name" => $this->action_class_name,
+            "case" => $this->case,
+            "configuration" => $this->configuration,
             "created_at" => $this->created_at,
-            "condition_class_name" => $this->class_name,
             "id" => (int) $this->id,
             "name" => $this->name,
             "playbook" => new PlaybookResource($this->whenLoaded("playbook")),
             "playbook_id" => (int) $this->playbook_id,
+            "playbook_step" => new PlaybookStepResource($this->whenLoaded("playbookStep")),
+            "playbook_step_id" => (int) $this->playbook_step_id,
             "sort_order" => (int) $this->sort_order,
             "updated_at" => $this->updated_at,
         ];

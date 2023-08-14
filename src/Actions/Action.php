@@ -12,5 +12,7 @@ abstract class Action
         $this->configuration = $configuration;
     }
 
-    abstract function do() : void;
+    abstract function do(): void;
+
+    abstract static function definition(): object;
 }

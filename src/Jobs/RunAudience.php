@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Query\JoinClause;
 
 use Dclaysmith\LaravelPlaybooks\Models\Instance;
-use Google\Service\AndroidEnterprise\Install;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +37,7 @@ class RunAudience implements ShouldQueue
 
     public function handle()
     {
+        Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\RunAudience");
 
         $className = "\\App\\Packages\\LaravelPlaybooks\\Audiences\\" . $this->playbookAudience->class_name;
 
@@ -55,6 +55,7 @@ class RunAudience implements ShouldQueue
         $newInstances = $clone->leftJoinSub(Instance::query(), "instances", function (JoinClause $join) use ($table) {
             $join->on("$table.id", "=", "instances.target_id");
             $join->where("instances.lp_playbook_id", $this->playbookAudience->lp_playbook_id);
+            $join->where("instances.status_id", Instance::STATUS_ACTIVE);
         })->whereNull("instances.id")->select("$table.*")->get();
 
         // Add these to instances

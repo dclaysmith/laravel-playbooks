@@ -1,16 +1,14 @@
 <template>
     <div>
-        <add-form @add="onAdd"></add-form>
-        <template v-if="loaded && actionsSorted.length">
-            <list-item
-                v-for="action in actionsSorted"
-                :key="action.id"
-                :action="action"
-                @delete="onDelete"
-            ></list-item>
-        </template>
-        <p v-else-if="loaded">There are no actions.</p>
+        <component
+            v-if="loaded"
+            :is="componentName"
+            :playbook-step="playbookStep"
+            :playbook-actions="playbookActionsSorted"
+            @delete="onDelete"
+        ></component>
         <p v-else>Loading...</p>
+        {{ componentName }}
     </div>
 </template>
 
@@ -19,16 +17,13 @@ import { ref, computed, inject } from "vue";
 import { notify } from "@kyvg/vue3-notification";
 import { sortBy as _sortBy } from "lodash";
 
-import ListItem from "./list-item.vue";
-import AddForm from "./add-form.vue";
+import WithCondition from "./with-condition.vue";
+import WithoutCondition from "./without-condition.vue";
 
 export default {
     name: "Actions",
-    components: {
-        ListItem,
-        AddForm,
-    },
-    props: ["step"],
+    components: { WithCondition, WithoutCondition },
+    props: ["playbookStep"],
     setup(props, { emit }) {
         /**
          * Reactive Properties
@@ -44,9 +39,9 @@ export default {
         async function fetchPlaybookActionList() {
             const response = await fetch(
                 "/api/lp-playbook-actions?lp_playbook_id=" +
-                    props.step.playbook_id +
+                    props.playbookStep.playbook_id +
                     "&lp_playbook_step_id=" +
-                    props.step.id
+                    props.playbookStep.id
             );
             const json = await response.json();
             playbookActions.value = json.data;
@@ -54,8 +49,8 @@ export default {
         }
 
         async function onAdd(playbookAction) {
-            playbookAction.lp_playbook_id = props.step.lp_playbook_id;
-            playbookAction.lp_playbook_step_id = props.step.id;
+            playbookAction.lp_playbook_id = props.playbookStep.lp_playbook_id;
+            playbookAction.lp_playbook_step_id = props.playbookStep.id;
             submitting.value = true;
             const response = await fetch("/api/lp-playbook-actions", {
                 headers: {
@@ -119,17 +114,27 @@ export default {
         fetchPlaybookActionList();
 
         /**
-         * Updated
+         * Computed
          */
-        const actionsSorted = computed(() => {
+        const playbookActionsSorted = computed(() => {
             return _sortBy(playbookActions.value || [], (action) => {
                 return playbookActions.class_name;
             });
         });
 
+        /**
+         * Computed
+         */
+        const componentName = computed(() => {
+            return props.playbookStep.condition_class_name
+                ? "WithCondition"
+                : "WithoutCondition";
+        });
+
         return {
-            actionsSorted,
+            playbookActionsSorted,
             loaded,
+            componentName,
             onAdd,
             onDelete,
         };

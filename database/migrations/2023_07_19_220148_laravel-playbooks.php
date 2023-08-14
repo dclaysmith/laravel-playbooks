@@ -139,6 +139,8 @@ return new class extends Migration
 
             $table->integer("status_id"); # PENDING | COMPLETE | FAILED
 
+            $table->datetime("completed_at")->nullable(true);
+
             $table->timestamps();
 
             $table->index("lp_playbook_step_id");
@@ -164,6 +166,8 @@ return new class extends Migration
                 ->onDelete("CASCADE");
 
             $table->integer("status_id"); # PENDING | COMPLETE | FAILED
+
+            $table->datetime("completed_at")->nullable(true);
 
             $table->timestamps();
 

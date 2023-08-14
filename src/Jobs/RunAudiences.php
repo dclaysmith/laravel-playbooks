@@ -32,15 +32,21 @@ class RunAudiences implements ShouldQueue
             $query->whereDate(
                 "last_ran_at",
                 "<",
-                \Carbon\Carbon::now()->subDays(1)
+                \Carbon\Carbon::now()->subDays(0)
             );
             $query->orWhereNull(
                 "last_ran_at"
             );
         })->get();
 
+        Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\RunAudiences - " . $playbookAudiences->count());
+
         foreach ($playbookAudiences as $playbookAudience) {
             dispatch(new \Dclaysmith\LaravelPlaybooks\Jobs\RunAudience($playbookAudience));
+
+            // Set as synced even if it may fail
+            $playbookAudience->last_ran_at = now();
+            $playbookAudience->save();
         }
     }
 }

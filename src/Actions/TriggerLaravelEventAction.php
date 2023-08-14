@@ -7,8 +7,12 @@ use Dclaysmith\LaravelPlaybooks\Actions\Action;
 class TriggerLaravelEventAction extends Action
 {
 
-    public function do() : void
+    public function do(): void
     {
-        
+    }
+
+    public static function definition(): object
+    {
+        return (object) [];
     }
 }

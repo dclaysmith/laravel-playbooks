@@ -5,10 +5,6 @@ namespace Dclaysmith\LaravelPlaybooks\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use Dclaysmith\LaravelPlaybooks\Http\Resources\ConditionResource;
-
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use Dclaysmith\LaravelPlaybooks\Http\Filters\Base as Filter;

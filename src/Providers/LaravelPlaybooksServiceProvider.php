@@ -19,8 +19,8 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
          */
         $this->publishes(
             [
-                __DIR__ . "/../../src/Actions" => app_path(
-                    "Packages/LaravelPlaybooks/Actions"
+                __DIR__ . "/../../src/Actions/CustomAction.php" => app_path(
+                    "Packages/LaravelPlaybooks/Actions/CustomAction.php"
                 ),
                 __DIR__ . "/../../src/Audiences/AllUsersAudience.php" => app_path(
                     "Packages/LaravelPlaybooks/Audiences/AllUsersAudience.php"
@@ -28,9 +28,9 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
                 __DIR__ . "/../../src/Conditions/IsAdminCondition.php" => app_path(
                     "Packages/LaravelPlaybooks/Conditions/IsAdminCondition.php"
                 ),
-                // __DIR__ . "/../../src/Commands" => app_path(
-                //     "Packages/LaravelPlaybooks/Commands"
-                // ),
+                __DIR__ . "/../../src/Webhooks" => app_path(
+                    "Packages/LaravelPlaybooks/Webhooks"
+                ),
                 __DIR__ . "/../../src/Scheduler.php" => app_path(
                     "Packages/LaravelPlaybooks/Scheduler.php"
                 ),
@@ -69,6 +69,8 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 \Dclaysmith\LaravelPlaybooks\Commands\RunAudiences::class,
+                \Dclaysmith\LaravelPlaybooks\Commands\InsertNextSteps::class,
+                \Dclaysmith\LaravelPlaybooks\Commands\ProcessSteps::class,
             ]);
         }
 

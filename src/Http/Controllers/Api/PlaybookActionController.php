@@ -5,12 +5,12 @@ namespace Dclaysmith\LaravelPlaybooks\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use Dclaysmith\LaravelPlaybooks\Models\PlaybookStep;
+use Dclaysmith\LaravelPlaybooks\Models\PlaybookAction;
 
-use Dclaysmith\LaravelPlaybooks\Http\Requests\Api\PlaybookStep\StoreRequest;
-use Dclaysmith\LaravelPlaybooks\Http\Requests\Api\PlaybookStep\UpdateRequest;
+use Dclaysmith\LaravelPlaybooks\Http\Requests\Api\PlaybookAction\StoreRequest;
+use Dclaysmith\LaravelPlaybooks\Http\Requests\Api\PlaybookAction\UpdateRequest;
 
-use Dclaysmith\LaravelPlaybooks\Http\Resources\PlaybookStepResource;
+use Dclaysmith\LaravelPlaybooks\Http\Resources\PlaybookActionResource;
 
 use Dclaysmith\LaravelPlaybooks\Http\Traits\AppliesDefaults;
 use Dclaysmith\LaravelPlaybooks\Http\Traits\AppliesFilters;
@@ -20,7 +20,7 @@ use Dclaysmith\LaravelPlaybooks\Http\Traits\AppliesSorts;
 
 use Dclaysmith\LaravelPlaybooks\Http\Filters\Base as Filter;
 
-class PlaybookStepController extends Controller
+class PlaybookActionController extends Controller
 {
     use AppliesDefaults,
         AppliesFilters,
@@ -35,7 +35,7 @@ class PlaybookStepController extends Controller
      */
     public function index(Request $request)
     {
-        $builder = PlaybookStep::query();
+        $builder = PlaybookAction::query();
 
         $this->applyIncludes($builder, $request, ["playbook"]);
 
@@ -67,14 +67,14 @@ class PlaybookStepController extends Controller
         $data = $request->validated();
 
         $this->applyDefaults($data, [
-            "sort_order" => PlaybookStep::where("lp_playbook_id", $request->input('lp_playbook_id'))->count()
+            "sort_order" => PlaybookAction::where("lp_playbook_id", $request->input('lp_playbook_id'))->count()
         ]);
 
-        $playbookStep = PlaybookStep::firstOrCreate($data);
+        $playbookAction = PlaybookAction::firstOrCreate($data);
 
-        $playbookStep->load(["playbook"]);
+        $playbookAction->load(["playbook"]);
 
-        return new PlaybookStepResource($playbookStep, 201);
+        return new PlaybookActionResource($playbookAction, 201);
     }
 
     /**
@@ -85,9 +85,9 @@ class PlaybookStepController extends Controller
      */
     public function show($id)
     {
-        $playbookStep = PlaybookStep::with(["playbook"])->findOrFail($id);
+        $playbookAction = PlaybookAction::with(["playbook"])->findOrFail($id);
 
-        return new PlaybookStepResource($playbookStep, 200);
+        return new PlaybookActionResource($playbookAction, 200);
     }
 
     /**
@@ -120,9 +120,9 @@ class PlaybookStepController extends Controller
      */
     public function destroy($id)
     {
-        $playbookStep = PlaybookStep::findOrFail($id);
+        $playbookAction = PlaybookAction::findOrFail($id);
 
-        $playbookStep->delete();
+        $playbookAction->delete();
 
         return response(200);
     }

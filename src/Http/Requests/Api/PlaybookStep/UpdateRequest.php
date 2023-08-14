@@ -4,14 +4,13 @@ namespace Dclaysmith\LaravelPlaybooks\Http\Requests\Api\PlaybookStep;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            "lp_playbook_id" => ["required", "exists:lp_playbooks,id"],
             "condition_class_name" => ["sometimes", "nullable", "max:255"],
-            "name" => ["required", "max:255"],
+            "name" => ["sometimes", "required", "max:255"],
             "sort_order" => ["sometimes", "integer"]
         ];
     }
