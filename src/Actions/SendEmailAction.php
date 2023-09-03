@@ -29,6 +29,10 @@ class SendEmailAction extends Action
             "laravel-playbooks.mailables_directory"
         );
 
+        if (!file_exists($mailablesDirectory)) {
+            return [];
+        }
+
         $mailables = [];
         foreach (new \DirectoryIterator($mailablesDirectory) as $file) {
             if ($file->isFile()) {

@@ -55,7 +55,6 @@ return [
     "mailables_directory" => "../app/Mail",
     "mailables_namespace" => "App\\Mail",
 
-
     /*
     |--------------------------------------------------------------------------
     | Webhooks Directory

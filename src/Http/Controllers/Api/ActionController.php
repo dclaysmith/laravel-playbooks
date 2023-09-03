@@ -51,7 +51,7 @@ class ActionController extends Controller
                     "laravel-playbooks.actions_namespace"
                 ) . "\\" . $className;
                 $views[] = (object) [
-                    "className" => str_replace(".php", "", $file->getFilename()),
+                    "className" => $className,
                     "namespace" => $namespaced,
                     "configuration" => $namespaced::definition()
                 ];
