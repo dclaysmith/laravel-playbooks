@@ -5,11 +5,16 @@
             <p v-if="playbookStep.condition_class_name">
                 IF {{ playbookStep.condition_class_name }} is TRUE...
             </p>
-            <playbook-actions :playbook-step="playbookStep"></playbook-actions>
+            <playbook-actions
+                :playbook-step="playbookStep"
+                :playbook-actions="playbookActions"
+                @add-action="$emit('add-action', $event)"
+                @delete-action="$emit('delete-action', $event)"
+            ></playbook-actions>
         </div>
         <div class="card-footer">
             <button @click.prevent="onDeleteClick" class="btn btn-error">
-                Delete
+                Delete Step
             </button>
         </div>
     </div>
@@ -20,13 +25,13 @@ import PlaybookActions from "./actions/index.vue";
 
 export default {
     name: "StepsListItem",
-    props: ["playbookStep"],
+    props: ["playbookStep", "playbookActions"],
+    emits: ["add-action", "delete-step", "delete-action"],
     components: { PlaybookActions },
     setup(props, { emit }) {
-        async function onDeleteClick() {
-            emit("delete", props.playbookStep.id);
+        function onDeleteClick() {
+            emit("delete-step", props.playbookStep.id);
         }
-
         return { onDeleteClick };
     },
 };

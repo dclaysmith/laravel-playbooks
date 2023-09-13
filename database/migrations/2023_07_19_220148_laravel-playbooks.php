@@ -66,7 +66,7 @@ return new class extends Migration
             $table->string("name");
             $table->string("case"); # IF | ELSE | FINALLY
             $table->string("action_class_name");
-            $table->jsonb("configuration");
+            $table->jsonb("configuration")->nullable(true);
             $table->integer("sort_order");
 
             $table->timestamps();

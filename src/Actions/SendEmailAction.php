@@ -14,12 +14,47 @@ class SendEmailAction extends Action
     public static function definition(): object
     {
         return (object) [
-            "mailable" => [
-                "type" => "string",
+            [
+                "key" => "mailable",
+                "type" => "text",
                 "label" => "Mailable",
                 "options" => SendEmailAction::mailables(),
                 "required" => true
-            ]
+            ],
+            [
+                "key" => "text",
+                "type" => "text",
+                "label" => "Text",
+                "options" => SendEmailAction::mailables(),
+                "required" => true
+            ],
+            [
+                "key" => "textarea",
+                "type" => "textarea",
+                "label" => "Text Area",
+                "required" => true
+            ],
+            [
+                "key" => "select",
+                "type" => "select",
+                "label" => "Select Test",
+                "required" => true,
+                "options" => [ "a" => "A", "b" => "B", "c" =>"C" ]
+            ],
+            //[
+            //  "key" => "radio",
+            //     "type" => "radio",
+            //     "label" => "Radio Test",
+            //     "required" => true,
+            //     "options" => [ "y" => "Yes", "n" => "No" ],
+            // ],
+            //[
+            //  "key" => "checkbox",
+            //     "type" => "checkbox",
+            //     "label" => "Checkbox Test",
+            //     "required" => true,
+            //     "options" => [ "y" => "Yes", "n" => "No" ],
+            // ]
         ];
     }
 

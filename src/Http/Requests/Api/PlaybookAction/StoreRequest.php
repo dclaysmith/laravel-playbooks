@@ -6,6 +6,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
 {
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'case' => $this->case ? $this->case : 'finally',
+            'configuration' => json_encode($this->configuration),
+        ]);
+    }
+
     public function rules(): array
     {
         return [
@@ -15,7 +27,7 @@ class StoreRequest extends FormRequest
             "configuration" => ["sometimes", "json", "max:255"],
             "action_class_name" => ["required",  "max:255"],
             "name" => ["required", "max:255"],
-            "sort_order" => ["required", "integer"]
+            "sort_order" => ["sometimes", "required", "integer"]
         ];
     }
 }

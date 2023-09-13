@@ -6,7 +6,8 @@ import notifications from "@kyvg/vue3-notification";
 import VueCookies from "vue-cookies";
 
 // Import full Spectre source code
-import "spectre.css";
+// import "spectre.css";
+import "./css/styles.scss";
 
 const app = createApp(App).use(router).use(notifications).use(VueCookies);
 

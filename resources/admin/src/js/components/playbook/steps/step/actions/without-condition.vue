@@ -1,52 +1,47 @@
 <template>
     <div>
-        <add-form @add="onAdd"></add-form>
+        <add-form
+            @add="$emit('add-action', $event)"
+            :playbook-step="playbookStep"
+            :submitting="submitting"
+            :enable-case="false"
+        ></add-form>
+        <action-table
+            :playbook-actions="playbookActionsSorted"
+            @delete-action="$emit('delete-action', $event)"
+        ></action-table>
     </div>
 </template>
 
 <script>
-import { ref } from "vue";
-import AddForm from "./add-form.vue";
+import { ref, computed } from "vue";
+import { notify } from "@kyvg/vue3-notification";
+import { sortBy as _sortBy } from "lodash";
+
+import AddForm from "./add-form/index.vue";
+import ActionTable from "./action-table/index.vue";
 
 export default {
     name: "WithoutCondition",
     props: ["playbookStep", "playbookActions"],
-    components: { AddForm },
+    components: { AddForm, ActionTable },
+    emits: ["add-action", "delete-action"],
     setup(props, { emit }) {
-        async function onAdd(playbookAction) {
-            playbookAction.lp_playbook_id = props.playbookStep.lp_playbook_id;
-            submitting.value = true;
-            const response = await fetch("/api/lp-playbook-actions", {
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    "X-XSRF-TOKEN": $cookies.get("XSRF-TOKEN"),
-                },
-                method: "POST",
-                body: JSON.stringify(playbookAction),
-            });
-            submitting.value = false;
+        const submitting = ref(false);
 
-            const json = await response.json();
-
-            if (!response.ok) {
-                notify({
-                    title: json.message,
-                    type: "error",
-                });
-                return;
+        /**
+         * Computed
+         */
+        const playbookActionsSorted = computed(() => {
+            if (!props.playbookActions) {
+                return [];
             }
-
-            notify({
-                title: "New playbook action added.",
-                type: "success",
+            return _sortBy(props.playbookActions || [], (playbookAction) => {
+                return playbookAction.class_name;
             });
+        });
 
-            playbookActions.value.push(
-                Object.assign(playbookAction, json.data)
-            );
-        }
-        return { onAdd };
+        return { submitting, playbookActionsSorted };
     },
 };
 </script>

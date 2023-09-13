@@ -1,6 +1,21 @@
 <template>
     <tr>
-        HELLO
+        <td><i class="icon icon-2x icon-menu"></i></td>
+        <td>
+            {{ playbookAction.name }}
+        </td>
+        <td>
+            {{ playbookAction.action_class_name }}
+        </td>
+        <td>Configure</td>
+        <td class="text-right">
+            <button
+                @click.prevent="onDeleteClick"
+                class="btn btn-link text-error"
+            >
+                Delete
+            </button>
+        </td>
     </tr>
 </template>
 
@@ -13,6 +28,7 @@ import { sortBy as _sortBy } from "lodash";
 export default {
     name: "PlaybookActionTableRow",
     props: ["playbookAction"],
+    emits: ["delete-action"],
     components: {},
     setup(props, { emit }) {
         /**
@@ -22,12 +38,15 @@ export default {
         /**
          * Methods
          */
+        async function onDeleteClick() {
+            emit("delete-action", props.playbookAction.id);
+        }
 
         /**
          * Computed
          */
 
-        return {};
+        return { onDeleteClick };
     },
 };
 </script>
