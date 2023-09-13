@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Provided as an example
+ * Automatically copied to: 
+ * /app/Packages/LaravelPlaybooks/Audiences
+ */
 namespace App\Packages\LaravelPlaybooks\Audiences;
 
 use Dclaysmith\LaravelPlaybooks\Audiences\Audience;

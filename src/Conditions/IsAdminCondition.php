@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Provided as an example
+ * Automatically copied to: 
+ * /app/Packages/LaravelPlaybooks/Conditions
+ */
 namespace App\Packages\LaravelPlaybooks\Conditions;
 
 use Dclaysmith\LaravelPlaybooks\Conditions\Condition;
