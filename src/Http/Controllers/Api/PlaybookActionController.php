@@ -43,7 +43,9 @@ class PlaybookActionController extends Controller
 
         $this->applySorts($builder, $request, [], [], []);
 
-        return $this->applyPagination($builder, $request);
+        return PlaybookActionResource::collection(
+            $this->applyPagination($builder, $request, 25, 100)
+        );
     }
 
     /**
@@ -110,6 +112,17 @@ class PlaybookActionController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
+        $data = $request->validated();
+
+        $playbookAction = PlaybookAction::findOrFail($id);
+
+        $playbookAction->fill($data);
+
+        $playbookAction->save();
+
+        $playbookAction->load([]);
+
+        return new PlaybookActionResource($playbookAction, 200);
     }
 
     /**

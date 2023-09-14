@@ -44,6 +44,10 @@ class PlaybookStepController extends Controller
         $this->applySorts($builder, $request, [], [], []);
 
         return $this->applyPagination($builder, $request);
+
+        return PlaybookStepResource::collection(
+            $this->applyPagination($builder, $request, 25, 100)
+        );
     }
 
     /**

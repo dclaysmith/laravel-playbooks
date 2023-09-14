@@ -1,5 +1,6 @@
 <template>
     <select
+        class="form-select"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         :required="definition.required"

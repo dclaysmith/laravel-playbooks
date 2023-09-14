@@ -43,7 +43,9 @@ class PlaybookController extends Controller
 
         $this->applySorts($builder, $request, ["name"], [], ["name"]);
 
-        return $this->applyPagination($builder, $request);
+        return PlaybookResource::collection(
+            $this->applyPagination($builder, $request, 25, 100)
+        );
     }
 
     /**

@@ -22,9 +22,9 @@ class PlaybookActionResource extends JsonResource
             "id" => (int) $this->id,
             "name" => $this->name,
             "playbook" => new PlaybookResource($this->whenLoaded("playbook")),
-            "playbook_id" => (int) $this->playbook_id,
+            "lp_playbook_id" => (int) $this->lp_playbook_id,
             "playbook_step" => new PlaybookStepResource($this->whenLoaded("playbookStep")),
-            "playbook_step_id" => (int) $this->playbook_step_id,
+            "lp_playbook_step_id" => (int) $this->lp_playbook_step_id,
             "sort_order" => (int) $this->sort_order,
             "updated_at" => $this->updated_at,
         ];

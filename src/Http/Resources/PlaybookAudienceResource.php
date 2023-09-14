@@ -20,7 +20,7 @@ class PlaybookAudienceResource extends JsonResource
             "exit_action" => $this->exit_action,
             "id" => (int) $this->id,
             "playbook" => new PlaybookResource($this->whenLoaded("playbook")),
-            "playbook_id" => (int) $this->playbook_id,
+            "lp_playbook_id" => (int) $this->lp_playbook_id,
             "updated_at" => $this->updated_at,
         ];
     }

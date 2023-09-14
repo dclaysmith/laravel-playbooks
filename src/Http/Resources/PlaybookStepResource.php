@@ -20,7 +20,7 @@ class PlaybookStepResource extends JsonResource
             "id" => (int) $this->id,
             "name" => $this->name,
             "playbook" => new PlaybookResource($this->whenLoaded("playbook")),
-            "playbook_id" => (int) $this->playbook_id,
+            "lp_playbook_id" => (int) $this->lp_playbook_id,
             "sort_order" => (int) $this->sort_order,
             "updated_at" => $this->updated_at,
         ];

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { ref, computed, inject } from "vue";
+import { ref, computed, inject, watch } from "vue";
 import { notify } from "@kyvg/vue3-notification";
 import { sortBy as _sortBy, filter as _filter } from "lodash";
 
@@ -58,6 +58,20 @@ export default {
             );
             const json = await response.json();
             playbookActions.value = json.data;
+
+            /**
+             * Watch
+             */
+            watch(
+                playbookActions,
+                async (newActions, oldActions) => {
+                    newActions.forEach(function (item, index) {
+                        console.log(item.id + " - " + item.sort_order);
+                        updateAction(item);
+                    });
+                },
+                { deep: true }
+            );
         }
 
         async function onAddAction(playbookAction) {
@@ -181,6 +195,28 @@ export default {
             ~indexToRemove && playbookSteps.value.splice(indexToRemove, 1);
         }
 
+        async function updateAction(playbookAction) {
+            const response = await fetch(
+                "/api/lp-playbook-actions/" + playbookAction.id,
+                {
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        "X-XSRF-TOKEN": $cookies.get("XSRF-TOKEN"),
+                    },
+                    method: "PUT",
+                    body: JSON.stringify(playbookAction),
+                }
+            );
+            if (!response.ok) {
+                notify({
+                    title: json.message,
+                    type: "error",
+                });
+                return;
+            }
+        }
+
         function playbookActionsFiltered(playbookStepId) {
             if (!playbookActions) {
                 return [];
@@ -200,7 +236,7 @@ export default {
                 return [];
             }
             return _sortBy(playbookSteps.value || [], (step) => {
-                return playbookSteps.class_name;
+                return playbookSteps.sort_order;
             });
         });
 

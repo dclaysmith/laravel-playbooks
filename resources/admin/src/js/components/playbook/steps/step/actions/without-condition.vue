@@ -37,7 +37,7 @@ export default {
                 return [];
             }
             return _sortBy(props.playbookActions || [], (playbookAction) => {
-                return playbookAction.class_name;
+                return playbookAction.sort_order;
             });
         });
 

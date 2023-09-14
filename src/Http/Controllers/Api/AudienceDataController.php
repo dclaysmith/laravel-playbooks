@@ -41,6 +41,9 @@ class AudienceDataController extends Controller
        
         $builder = $className::builder();
 
-        return $this->applyPagination($builder, $request);
+
+        return JsonResource::collection(
+            $this->applyPagination($builder, $request, 25, 100)
+        );
     }
 }

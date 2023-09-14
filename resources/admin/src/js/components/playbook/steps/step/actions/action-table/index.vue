@@ -1,5 +1,4 @@
 <template>
-    {{ drag }}
     <table class="table">
         <tfoot v-if="playbookActions.length == 0">
             <tr>
@@ -13,6 +12,7 @@
             @start="drag = true"
             @end="drag = false"
             item-key="id"
+            @change="onChange"
         >
             <template #item="{ element: playbookAction }">
                 <list-item
@@ -27,8 +27,6 @@
 
 <script>
 import { ref, computed, inject } from "vue";
-import { notify } from "@kyvg/vue3-notification";
-import { useRouter } from "vue-router";
 import { sortBy as _sortBy } from "lodash";
 import draggable from "vuedraggable";
 
@@ -47,17 +45,20 @@ export default {
          * Reactive Properties
          */
 
-        const drag = ref(false);
-        const myArray = ref([]);
         /**
          * Methods
          */
+        async function onChange(e) {
+            props.playbookActions.forEach((playbookAction, index) => {
+                playbookAction.sort_order = index;
+            });
+        }
 
         /**
          * Computed
          */
 
-        return { drag, myArray };
+        return { onChange };
     },
 };
 </script>
