@@ -13,6 +13,16 @@ class TriggerLaravelEventAction extends Action
 
     public static function definition(): object
     {
-        return (object) [];
+        return (object) [
+            [
+                "key" => "webhook",
+                "type" => "select",
+                "label" => "Webhook",
+                "options" => RequestWebhookAction::webhooks(),
+                "attributes" => [
+                    "required" => true,
+                ]
+            ],
+        ];
     }
 }

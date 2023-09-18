@@ -1,15 +1,16 @@
 <template>
     <div>
-        <add-form @add="onAddStep"></add-form>
+        <add-form @add="addStep"></add-form>
         <template v-if="loaded && playbookStepsSorted.length">
             <playbook-step
                 v-for="playbookStep in playbookStepsSorted"
                 :key="playbookStep.id"
                 :playbook-step="playbookStep"
                 :playbook-actions="playbookActionsFiltered(playbookStep.id)"
-                @delete-step="onDelete"
-                @add-action="onAddAction"
-                @delete-action="onDeleteAction"
+                @delete-step="deleteStep"
+                @add-action="addAction"
+                @delete-action="deleteAction"
+                @update-action="updateAction"
             ></playbook-step>
         </template>
         <p v-else-if="loaded">There are no steps.</p>
@@ -50,6 +51,29 @@ export default {
             );
             const json = await response.json();
             playbookSteps.value = json.data;
+
+            /**
+             * Watch
+             */
+            watch(
+                playbookSteps,
+                async (newSteps, oldSteps) => {
+                    for (let [index, item] of newSteps.entries()) {
+                        var oldItem = oldSteps.find((step) => {
+                            return step.id == item.id;
+                        });
+                        if (oldItem) {
+                            if (oldItem?.sort_order != item.sort_order) {
+                                console.log(
+                                    oldItem.sort_order + " - " + item.sort_order
+                                );
+                                updateStep(item);
+                            }
+                        }
+                    }
+                },
+                { deep: true }
+            );
         }
 
         async function fetchPlaybookActionList() {
@@ -62,11 +86,17 @@ export default {
             /**
              * Watch
              */
+            /**
+             * Watch
+             */
             watch(
-                playbookActions,
-                async (newActions, oldActions) => {
-                    newActions.forEach(function (item, index) {
-                        console.log(item.id + " - " + item.sort_order);
+                () =>
+                    playbookActions.value
+                        .map((item) => item.id + "-" + item.sort_order)
+                        .sort()
+                        .join("_"),
+                async () => {
+                    playbookActions.value.forEach(function (item, index) {
                         updateAction(item);
                     });
                 },
@@ -74,7 +104,7 @@ export default {
             );
         }
 
-        async function onAddAction(playbookAction) {
+        async function addAction(playbookAction) {
             submitting.value = true;
             const response = await fetch("/api/lp-playbook-actions", {
                 headers: {
@@ -107,7 +137,7 @@ export default {
             );
         }
 
-        async function onAddStep(playbookStep) {
+        async function addStep(playbookStep) {
             playbookStep.lp_playbook_id = props.playbook.id;
             submitting.value = true;
             const response = await fetch("/api/lp-playbook-steps", {
@@ -139,7 +169,7 @@ export default {
             playbookSteps.value.push(Object.assign(playbookStep, json.data));
         }
 
-        async function onDeleteAction(id) {
+        async function deleteAction(id) {
             const response = await fetch("/api/lp-playbook-actions/" + id, {
                 headers: {
                     Accept: "application/json",
@@ -148,6 +178,9 @@ export default {
                 },
                 method: "DELETE",
             });
+
+            const json = await response.json();
+
             if (!response.ok) {
                 notify({
                     title: json.message,
@@ -167,7 +200,7 @@ export default {
             ~indexToRemove && playbookActions.value.splice(indexToRemove, 1);
         }
 
-        async function onDelete(id) {
+        async function deleteStep(id) {
             const response = await fetch("/api/lp-playbook-steps/" + id, {
                 headers: {
                     Accept: "application/json",
@@ -176,6 +209,9 @@ export default {
                 },
                 method: "DELETE",
             });
+
+            const json = await response.json();
+
             if (!response.ok) {
                 notify({
                     title: json.message,
@@ -208,6 +244,34 @@ export default {
                     body: JSON.stringify(playbookAction),
                 }
             );
+
+            const json = await response.json();
+
+            if (!response.ok) {
+                notify({
+                    title: json.message,
+                    type: "error",
+                });
+                return;
+            }
+        }
+
+        async function updateStep(playbookStep) {
+            const response = await fetch(
+                "/api/lp-playbook-steps/" + playbookStep.id,
+                {
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        "X-XSRF-TOKEN": $cookies.get("XSRF-TOKEN"),
+                    },
+                    method: "PUT",
+                    body: JSON.stringify(playbookStep),
+                }
+            );
+
+            const json = await response.json();
+
             if (!response.ok) {
                 notify({
                     title: json.message,
@@ -250,10 +314,11 @@ export default {
             playbookStepsSorted,
             playbookActionsFiltered,
             loaded,
-            onAddStep,
-            onAddAction,
-            onDelete,
-            onDeleteAction,
+            addStep,
+            deleteStep,
+            addAction,
+            deleteAction,
+            updateAction,
         };
     },
 };

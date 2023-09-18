@@ -18,12 +18,15 @@ class RequestWebhookAction extends Action
     public static function definition(): object
     {
         return (object) [
-            "mailable" => [
-                "type" => "string",
+            [
+                "key" => "webhook",
+                "type" => "select",
                 "label" => "Webhook",
                 "options" => RequestWebhookAction::webhooks(),
-                "required" => true
-            ]
+                "attributes" => [
+                    "required" => true,
+                ]
+            ],
         ];
     }
 

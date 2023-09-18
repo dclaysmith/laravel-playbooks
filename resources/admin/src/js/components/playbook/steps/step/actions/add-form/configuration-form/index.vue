@@ -17,7 +17,6 @@
                 <div class="modal-title h5">Configure Action</div>
             </div>
             <div class="modal-body">
-                {{ modelValue }}
                 <div class="content">
                     <form @submit.prevent="onSubmit">
                         <fieldset>

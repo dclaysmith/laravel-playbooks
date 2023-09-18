@@ -6,6 +6,17 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
 {
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'configuration' => json_encode($this->configuration),
+        ]);
+    }
+
     public function rules(): array
     {
         return [

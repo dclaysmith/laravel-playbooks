@@ -3,7 +3,7 @@
         type="text"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
-        :required="definition.required"
+        v-bind="definition.attributes"
     />
 </template>
 

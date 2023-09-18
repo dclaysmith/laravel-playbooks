@@ -4,9 +4,14 @@
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         :required="definition.required"
+        v-bind="definition.attributes"
     >
-        <option v-for="(label, value) in options" :key="value" :value="value">
-            {{ label }}
+        <option
+            v-for="(item, index) in options"
+            :key="item.value"
+            :value="item.value"
+        >
+            {{ item.label }}
         </option>
     </select>
 </template>

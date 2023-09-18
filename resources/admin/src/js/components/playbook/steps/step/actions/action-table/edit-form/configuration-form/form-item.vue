@@ -4,8 +4,7 @@
         <component
             :is="componentType"
             :definition="definition"
-            v-model="configuration"
-            @update:modelValue="$emit('update:modelValue', $event)"
+            v-model="configuration[definition.key]"
         ></component>
     </div>
 </template>
@@ -13,19 +12,17 @@
 <script>
 import { ref, computed } from "vue";
 
-import InputCheckbox from "./input-checkbox.vue";
-import InputSelect from "./input-select.vue";
-import InputText from "./input-text.vue";
-import InputNumber from "./input-number.vue";
-import InputRadio from "./input-radio.vue";
-import InputTextarea from "./input-textarea.vue";
+import InputCheckbox from "../../../add-form/configuration-form/input-checkbox.vue";
+import InputSelect from "../../../add-form/configuration-form/input-select.vue";
+import InputText from "../../../add-form/configuration-form/input-text.vue";
+import InputRadio from "../../../add-form/configuration-form/input-radio.vue";
+import InputTextarea from "../../../add-form/configuration-form/input-textarea.vue";
 
 export default {
-    name: "ActionAddFormConfiguration",
+    name: "ActionEditFormConfiguration",
     components: {
         InputCheckbox,
         InputRadio,
-        InputNumber,
         InputText,
         InputTextarea,
         InputSelect,

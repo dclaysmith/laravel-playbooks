@@ -3,12 +3,11 @@
         <add-form
             @add="$emit('add-action', $event)"
             :playbook-step="playbookStep"
-            :submitting="submitting"
-            :enable-case="false"
         ></add-form>
         <action-table
             :playbook-actions="playbookActionsSorted"
             @delete-action="$emit('delete-action', $event)"
+            @update-action="$emit('update-action', $event)"
         ></action-table>
     </div>
 </template>
@@ -25,10 +24,8 @@ export default {
     name: "WithoutCondition",
     props: ["playbookStep", "playbookActions"],
     components: { AddForm, ActionTable },
-    emits: ["add-action", "delete-action"],
+    emits: ["add-action", "delete-action", "update-action"],
     setup(props, { emit }) {
-        const submitting = ref(false);
-
         /**
          * Computed
          */
@@ -41,7 +38,7 @@ export default {
             });
         });
 
-        return { submitting, playbookActionsSorted };
+        return { playbookActionsSorted };
     },
 };
 </script>

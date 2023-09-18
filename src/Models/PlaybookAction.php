@@ -44,7 +44,9 @@ class PlaybookAction extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = [];
+    protected $casts = [        
+        'configuration' => 'object',
+    ];
 
     public function playbook()
     {

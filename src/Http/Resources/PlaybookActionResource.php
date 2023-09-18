@@ -17,7 +17,7 @@ class PlaybookActionResource extends JsonResource
         return [
             "action_class_name" => $this->action_class_name,
             "case" => $this->case,
-            "configuration" => $this->configuration,
+            "configuration" => json_decode($this->configuration),
             "created_at" => $this->created_at,
             "id" => (int) $this->id,
             "name" => $this->name,

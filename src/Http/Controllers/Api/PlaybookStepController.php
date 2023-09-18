@@ -114,6 +114,17 @@ class PlaybookStepController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
+        $data = $request->validated();
+
+        $playbookStep = PlaybookStep::findOrFail($id);
+
+        $playbookStep->fill($data);
+
+        $playbookStep->save();
+
+        $playbookStep->load([]);
+
+        return new PlaybookStepResource($playbookStep, 200);
     }
 
     /**

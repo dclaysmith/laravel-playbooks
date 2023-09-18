@@ -14,11 +14,16 @@ class WaitAction extends Action
     public static function definition(): object
     {
         return (object) [
-            "delay" => [
+            [
+                "key" => "delay",
                 "type" => "number",
-                "label" => "Delay in Days",
-                "required" => true
-            ]
+                "label" => "How many days?",
+                "attributes" => [
+                    "required" => true,
+                    "min" => 1,
+                    "step" => 1
+                ]
+            ],
         ];
     }
 }

@@ -16,44 +16,39 @@ class SendEmailAction extends Action
         return (object) [
             [
                 "key" => "mailable",
-                "type" => "text",
+                "type" => "select",
                 "label" => "Mailable",
                 "options" => SendEmailAction::mailables(),
-                "required" => true
+                "attributes" => [
+                    "required" => true,
+                ]
             ],
-            [
-                "key" => "text",
-                "type" => "text",
-                "label" => "Text",
-                "options" => SendEmailAction::mailables(),
-                "required" => true
-            ],
-            [
-                "key" => "textarea",
-                "type" => "textarea",
-                "label" => "Text Area",
-                "required" => true
-            ],
-            [
-                "key" => "select",
-                "type" => "select",
-                "label" => "Select Test",
-                "required" => true,
-                "options" => [ "a" => "A", "b" => "B", "c" =>"C" ]
-            ],
-            //[
-            //  "key" => "radio",
+            // [
+            //     "key" => "text",
+            //     "type" => "text",
+            //     "label" => "Text",
+            //     "options" => SendEmailAction::mailables(),
+            //     "required" => true
+            // ],
+            // [
+            //     "key" => "textarea",
+            //     "type" => "textarea",
+            //     "label" => "Text Area",
+            //     "required" => true
+            // ],
+            // [
+            //     "key" => "radio",
             //     "type" => "radio",
             //     "label" => "Radio Test",
             //     "required" => true,
-            //     "options" => [ "y" => "Yes", "n" => "No" ],
+            //     "options" => [ "aaaa" => "Option 1", "bbbb" => "Option 2", "cccc" => "Option 3" ],
             // ],
-            //[
-            //  "key" => "checkbox",
+            // [
+            //     "key" => "checkbox",
             //     "type" => "checkbox",
             //     "label" => "Checkbox Test",
             //     "required" => true,
-            //     "options" => [ "y" => "Yes", "n" => "No" ],
+            //     "options" => [ "aaaaa" => "Yes", "bbbbb" => "No" ],
             // ]
         ];
     }
@@ -76,12 +71,15 @@ class SendEmailAction extends Action
                     "laravel-playbooks.mailables_namespace"
                 ) . "\\" . $className;
                 $mailables[] = (object) [
-                    "className" => str_replace(".php", "", $file->getFilename()),
-                    "namespace" => $namespaced,
+                    "value" => (object) [
+                        "className" => str_replace(".php", "", $file->getFilename()),
+                        "namespace" => $namespaced,
+                    ],
+                    "label" => str_replace(".php", "", $file->getFilename())
                 ];
             }
         }
-
+        
         return $mailables;
     }
 }

@@ -7,7 +7,14 @@
         <td>
             {{ playbookAction.action_class_name }}
         </td>
-        <td>Configure</td>
+        <td>
+            <edit-form
+                :playbook-action="playbookAction"
+                @update-action="$emit('update-action', $event)"
+            >
+                <a>Edit</a>
+            </edit-form>
+        </td>
         <td class="text-right">
             <button
                 @click.prevent="onDeleteClick"
@@ -22,14 +29,15 @@
 <script>
 import { ref, computed, inject } from "vue";
 import { notify } from "@kyvg/vue3-notification";
-import { useRouter } from "vue-router";
 import { sortBy as _sortBy } from "lodash";
+
+import EditForm from "./edit-form/index.vue";
 
 export default {
     name: "PlaybookActionTableRow",
     props: ["playbookAction"],
-    emits: ["delete-action"],
-    components: {},
+    emits: ["delete-action", "update-action"],
+    components: { EditForm },
     setup(props, { emit }) {
         /**
          * Reactive Properties

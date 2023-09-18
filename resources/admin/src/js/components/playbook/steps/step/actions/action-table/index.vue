@@ -19,6 +19,7 @@
                     class="drag-item"
                     :playbook-action="playbookAction"
                     @delete-action="$emit('delete-action', $event)"
+                    @update-action="$emit('update-action', $event)"
                 ></list-item
             ></template>
         </draggable>
@@ -35,7 +36,7 @@ import ListItem from "./list-item.vue";
 export default {
     name: "PlaybookActionTable",
     props: ["playbookActions"],
-    emits: ["delete-action"],
+    emits: ["delete-action", "update-action"],
     components: {
         ListItem,
         draggable,

@@ -1,8 +1,8 @@
 <template>
-    <textarea
+    <input
+        type="number"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
-        :required="definition.required"
         v-bind="definition.attributes"
     />
 </template>
@@ -11,7 +11,7 @@
 import { ref, computed } from "vue";
 
 export default {
-    name: "ActionConfigurationFormTextarea",
+    name: "ActionConfigurationFormNum ber",
     components: {},
     emits: [],
     props: ["definition", "modelValue"],

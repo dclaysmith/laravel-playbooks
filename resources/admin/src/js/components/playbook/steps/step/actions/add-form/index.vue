@@ -28,19 +28,6 @@
                     v-model.number="newPlaybookAction.name"
                 />
             </div>
-            <div class="form-group form-inline mx-2" v-if="enableCase">
-                <label class="form-label" for="case">Case</label>
-                <select
-                    class="form-input"
-                    name="case"
-                    id="case"
-                    v-model.number="newPlaybookAction.case"
-                >
-                    <option value="if">If...</option>
-                    <option value="else">Else...</option>
-                    <option value="finally">Finally...</option>
-                </select>
-            </div>
             <button
                 class="btn btn-primary mx-2"
                 :class="{ loading: submitting }"
@@ -67,7 +54,7 @@ export default {
     name: "ActionAddForm",
     components: { ConfigurationForm },
     emits: ["add"],
-    props: ["playbookStep", "submitting", "enableCase"],
+    props: ["playbookStep", "case", "submitting"],
     setup(props, { emit }) {
         const newPlaybookAction = ref({});
         const classes = ref([]);
@@ -90,6 +77,7 @@ export default {
             newPlaybookAction.value.lp_playbook_id =
                 props.playbookStep.lp_playbook_id;
             newPlaybookAction.value.lp_playbook_step_id = props.playbookStep.id;
+            newPlaybookAction.value.case = props.case;
 
             if (
                 Object.keys(this.classDefinition.configuration || {}).length > 0
