@@ -32,6 +32,7 @@ return [
     |
     */
     "conditions_directory" => "../app/Packages/LaravelPlaybooks/Conditions",
+    "conditions_namespace" => "App\\Packages\\LaravelPlaybooks\\Conditions",
 
     /*
     |--------------------------------------------------------------------------
@@ -65,4 +66,15 @@ return [
     */
     "webhooks_directory" => "../app/Packages/LaravelPlaybooks/Webhooks",
     "webhooks_namespace" => "App\\Packages\\LaravelPlaybooks\\Webhooks",
+
+    /*
+    |--------------------------------------------------------------------------
+    | Events Directory
+    |--------------------------------------------------------------------------
+    |
+    | 
+    |
+    */
+    "events_directory" => "../app/Events",
+    "events_namespace" => "App\\Events",
 ];

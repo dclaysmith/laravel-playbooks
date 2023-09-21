@@ -103,7 +103,7 @@ export default {
 
         const classDefinition = computed(() => {
             return classes.value.find(
-                (item) => item.className == buffer.value.action_class_name
+                (item) => item.namespace == buffer.value.action_class_name
             );
         });
 

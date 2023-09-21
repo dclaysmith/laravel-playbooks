@@ -9,11 +9,12 @@ class SendEmailAction extends Action
 
     public function do(): void
     {
+        \Log::debug('do send email');
     }
 
-    public static function definition(): object
+    public static function definition(): array
     {
-        return (object) [
+        return  [
             [
                 "key" => "mailable",
                 "type" => "select",
@@ -23,33 +24,14 @@ class SendEmailAction extends Action
                     "required" => true,
                 ]
             ],
-            // [
-            //     "key" => "text",
-            //     "type" => "text",
-            //     "label" => "Text",
-            //     "options" => SendEmailAction::mailables(),
-            //     "required" => true
-            // ],
-            // [
-            //     "key" => "textarea",
-            //     "type" => "textarea",
-            //     "label" => "Text Area",
-            //     "required" => true
-            // ],
-            // [
-            //     "key" => "radio",
-            //     "type" => "radio",
-            //     "label" => "Radio Test",
-            //     "required" => true,
-            //     "options" => [ "aaaa" => "Option 1", "bbbb" => "Option 2", "cccc" => "Option 3" ],
-            // ],
-            // [
-            //     "key" => "checkbox",
-            //     "type" => "checkbox",
-            //     "label" => "Checkbox Test",
-            //     "required" => true,
-            //     "options" => [ "aaaaa" => "Yes", "bbbbb" => "No" ],
-            // ]
+            [
+                "key" => "email",
+                "type" => "text",
+                "label" => "Email Attribute Name",
+                "attributes" => [
+                    "required" => true,
+                ]
+            ],
         ];
     }
 
@@ -71,10 +53,7 @@ class SendEmailAction extends Action
                     "laravel-playbooks.mailables_namespace"
                 ) . "\\" . $className;
                 $mailables[] = (object) [
-                    "value" => (object) [
-                        "className" => str_replace(".php", "", $file->getFilename()),
-                        "namespace" => $namespaced,
-                    ],
+                    "value" => $namespaced,
                     "label" => str_replace(".php", "", $file->getFilename())
                 ];
             }

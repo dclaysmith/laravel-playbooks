@@ -3,8 +3,7 @@
         <form-item
             v-for="(item, key) in definition"
             :definition="item"
-            v-model="configuration"
-            @update:modelValue="$emit('update:modelValue', $event)"
+            v-model="configuration[item.key]"
         ></form-item>
     </fieldset>
 </template>
@@ -13,7 +12,7 @@
 <script>
 import { ref, computed } from "vue";
 
-import FormItem from "./form-item.vue";
+import FormItem from "../../../add-form/configuration-form/form-item.vue";
 
 export default {
     name: "ActionEditFormConfiguration",

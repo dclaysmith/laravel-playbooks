@@ -13,7 +13,7 @@ class UpdateRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'configuration' => json_encode($this->configuration),
+            'configuration' => $this->configuration,
         ]);
     }
 
@@ -21,7 +21,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             "case" => ["sometimes", "required", "max:255"],
-            "configuration" => ["sometimes", "json", "nullable", "max:255"],
+            "configuration" => ["sometimes", "nullable", "max:255"],
             "action_class_name" => ["sometimes", "nullable", "max:255"],
             "name" => ["sometimes", "required", "max:255"],
             "sort_order" => ["sometimes", "integer"]

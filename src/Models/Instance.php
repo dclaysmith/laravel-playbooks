@@ -54,4 +54,11 @@ class Instance extends Model
             "lp_playbook_id"
         );
     }
+
+    public function target() {
+        return $this->belongsTo(
+            $this->playbook->target_class, // Dynamic
+            "target_id"
+        );
+    }
 }

@@ -60,6 +60,9 @@ class RunAudience implements ShouldQueue
 
         // Add these to instances
         foreach ($newInstances as $newInstance) {
+
+            Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\RunAudience - Add Playbook Instance: " . implode(", ", [$this->playbookAudience->lp_playbook_id, $newInstance->id, $this->playbookAudience->class_name]));
+
             $instance = new \Dclaysmith\LaravelPlaybooks\Models\Instance();
             $instance->lp_playbook_id = $this->playbookAudience->lp_playbook_id;
             $instance->target_id = $newInstance->id;

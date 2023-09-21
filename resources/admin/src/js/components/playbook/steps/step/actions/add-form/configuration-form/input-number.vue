@@ -11,7 +11,7 @@
 import { ref, computed } from "vue";
 
 export default {
-    name: "ActionConfigurationFormNum ber",
+    name: "ActionConfigurationFormNumber",
     components: {},
     emits: [],
     props: ["definition", "modelValue"],

@@ -42,11 +42,12 @@ class RunAudiences implements ShouldQueue
         Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\RunAudiences - " . $playbookAudiences->count());
 
         foreach ($playbookAudiences as $playbookAudience) {
-            dispatch(new \Dclaysmith\LaravelPlaybooks\Jobs\RunAudience($playbookAudience));
 
             // Set as synced even if it may fail
             $playbookAudience->last_ran_at = now();
             $playbookAudience->save();
+
+            dispatch(new \Dclaysmith\LaravelPlaybooks\Jobs\RunAudience($playbookAudience));
         }
     }
 }

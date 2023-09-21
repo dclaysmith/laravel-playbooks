@@ -9,10 +9,11 @@ class CustomAction extends Action
 
     public function do(): void
     {
+        \Log::debug('do custom action');
     }
 
-    public static function definition(): object
+    public static function definition(): array
     {
-        return (object) [];
+        return [];
     }
 }

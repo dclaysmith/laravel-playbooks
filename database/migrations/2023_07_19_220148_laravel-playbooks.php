@@ -155,7 +155,7 @@ return new class extends Migration
                 ->constrained()
                 ->onDelete("CASCADE");
             $table
-                ->foreignId("lp_playbook_step_id")
+                ->foreignId("lp_instance_step_id")
                 ->nullable(false)
                 ->constrained()
                 ->onDelete("CASCADE");
@@ -172,7 +172,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index("lp_playbook_action_id");
-            $table->index("lp_playbook_step_id");
+            $table->index("lp_instance_step_id");
             $table->index("lp_instance_id");
         });
     }

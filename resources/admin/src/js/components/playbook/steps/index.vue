@@ -138,8 +138,11 @@ export default {
         }
 
         async function addStep(playbookStep) {
+            debugger;
             playbookStep.lp_playbook_id = props.playbook.id;
+
             submitting.value = true;
+
             const response = await fetch("/api/lp-playbook-steps", {
                 headers: {
                     Accept: "application/json",
@@ -149,6 +152,7 @@ export default {
                 method: "POST",
                 body: JSON.stringify(playbookStep),
             });
+
             submitting.value = false;
 
             const json = await response.json();

@@ -50,4 +50,12 @@ class PlaybookStep extends Model
             "lp_playbook_id"
         );
     }
+
+    public function playbookActions()
+    {
+        return $this->hasMany(
+            \Dclaysmith\LaravelPlaybooks\Models\PlaybookAction::class,
+            "lp_playbook_step_id"
+        );
+    }
 }

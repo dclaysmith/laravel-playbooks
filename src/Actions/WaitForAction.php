@@ -4,26 +4,22 @@ namespace Dclaysmith\LaravelPlaybooks\Actions;
 
 use Dclaysmith\LaravelPlaybooks\Actions\Action;
 
-/*
- * https://github.com/spatie/laravel-webhook-server
- */
-
-class RequestWebhookAction extends Action
+class WaitForAction extends Action
 {
 
     public function do(): void
     {
-        \Log::debug('do request webhook action');
+        \Log::debug('do wait for');
     }
 
     public static function definition(): array
     {
         return [
             [
-                "key" => "webhook",
+                "key" => "condition",
                 "type" => "select",
-                "label" => "Webhook",
-                "options" => self::webhooks(),
+                "label" => "Wait for condition to be met...",
+                "options" => self::conditions(),
                 "attributes" => [
                     "required" => true,
                 ]
@@ -31,30 +27,30 @@ class RequestWebhookAction extends Action
         ];
     }
 
-    public static function webhooks(): array
+    public static function conditions(): array
     {
-        $webhooksDirectory = config(
-            "laravel-playbooks.webhooks_directory"
+        $conditionsDirectory = config(
+            "laravel-playbooks.conditions_directory"
         );
 
-        if (!file_exists($webhooksDirectory)) {
+        if (!file_exists($conditionsDirectory)) {
             return [];
         }
 
-        $webhooks = [];
-        foreach (new \DirectoryIterator($webhooksDirectory) as $file) {
+        $items = [];
+        foreach (new \DirectoryIterator($conditionsDirectory) as $file) {
             if ($file->isFile()) {
                 $className = str_replace(".php", "", $file->getFilename());
                 $namespaced = config(
-                    "laravel-playbooks.webhooks_namespace"
+                    "laravel-playbooks.conditions_namespace"
                 ) . "\\" . $className;
-                $webhooks[] = (object) [
+                $items[] = (object) [
                     "value" => $namespaced,
                     "label" => str_replace(".php", "", $file->getFilename())
                 ];
             }
         }
         
-        return $webhooks;
+        return $items;
     }
 }

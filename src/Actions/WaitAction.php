@@ -9,11 +9,12 @@ class WaitAction extends Action
 
     public function do(): void
     {
+        \Log::debug('do wait');
     }
 
-    public static function definition(): object
+    public static function definition(): array
     {
-        return (object) [
+        return [
             [
                 "key" => "delay",
                 "type" => "number",

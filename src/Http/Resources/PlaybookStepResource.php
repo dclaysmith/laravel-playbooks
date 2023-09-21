@@ -16,7 +16,7 @@ class PlaybookStepResource extends JsonResource
     {
         return [
             "created_at" => $this->created_at,
-            "condition_class_name" => $this->class_name,
+            "condition_class_name" => $this->condition_class_name,
             "id" => (int) $this->id,
             "name" => $this->name,
             "playbook" => new PlaybookResource($this->whenLoaded("playbook")),

@@ -2,10 +2,11 @@
 
 namespace App\Packages\LaravelPlaybooks;
 
-use Dclaysmith\LaravelPlaybooks\Jobs\AddActions;
-use Dclaysmith\LaravelPlaybooks\Jobs\RunActions;
+
 use Dclaysmith\LaravelPlaybooks\Jobs\RunAudiences;
-use Dclaysmith\LaravelPlaybooks\Jobs\Audience;
+use Dclaysmith\LaravelPlaybooks\Jobs\InsertNextSteps;
+use Dclaysmith\LaravelPlaybooks\Jobs\ProcessSteps;
+use Dclaysmith\LaravelPlaybooks\Jobs\ProcessActions;
 
 class Scheduler
 {    
@@ -21,10 +22,13 @@ class Scheduler
         // Activates Playbooks
         $this->schedule->job(new RunAudiences)->everyFiveMinutes();
 
-        // Adds the next actions to be executed based on the definition
-        $this->schedule->job(new AddActions)->everyFiveMinutes();
+        // See if there are steps that need to be started
+        $this->schedule->job(new InsertNextSteps)->everyFiveMinutes();
+
+        // See if there are steps that need to be started
+        $this->schedule->job(new ProcessSteps)->everyFiveMinutes();
 
         // Executes the pending actions
-        $this->schedule->job(new RunActions)->everyFiveMinutes();
+        $this->schedule->job(new ProcessActions)->everyFiveMinutes();
     }
 }   

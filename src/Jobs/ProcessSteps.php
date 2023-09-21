@@ -40,11 +40,8 @@ class ProcessSteps implements ShouldQueue
         Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\ProcessSteps - " . $instanceSteps->count());
 
         foreach ($instanceSteps as $instanceStep) {
-            dispatch(new \Dclaysmith\LaravelPlaybooks\Jobs\ProcessStep($instanceStep));
 
-            // Set as synced even if it may fail
-            // $playbookAudience->last_ran_at = now();
-            // $playbookAudience->save();
+            dispatch(new \Dclaysmith\LaravelPlaybooks\Jobs\ProcessStep($instanceStep));
         }
     }
 }

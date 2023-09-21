@@ -21,7 +21,7 @@ import InputRadio from "./input-radio.vue";
 import InputTextarea from "./input-textarea.vue";
 
 export default {
-    name: "ActionAddFormConfiguration",
+    name: "ActionConfigurationFormItem",
     components: {
         InputCheckbox,
         InputRadio,

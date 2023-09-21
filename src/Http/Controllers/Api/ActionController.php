@@ -11,6 +11,7 @@ use Dclaysmith\LaravelPlaybooks\Http\Filters\Base as Filter;
 
 class ActionController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +37,7 @@ class ActionController extends Controller
                 }
             }
         }
-
+        
         /**
          * Retrieve all of the views in the designated folder
          */

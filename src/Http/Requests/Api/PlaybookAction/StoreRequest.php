@@ -14,7 +14,7 @@ class StoreRequest extends FormRequest
     {
         $this->merge([
             'case' => $this->case ? $this->case : 'finally',
-            'configuration' => json_encode($this->configuration),
+            'configuration' => $this->configuration,
         ]);
     }
 
@@ -24,7 +24,7 @@ class StoreRequest extends FormRequest
             "lp_playbook_id" => ["required", "exists:lp_playbooks,id"],
             "lp_playbook_step_id" => ["required", "exists:lp_playbook_steps,id"],
             "case" => ["required", "max:255"],
-            "configuration" => ["sometimes", "json", "max:255"],
+            "configuration" => ["sometimes", "max:255"],
             "action_class_name" => ["required",  "max:255"],
             "name" => ["required", "max:255"],
             "sort_order" => ["sometimes", "required", "integer"]

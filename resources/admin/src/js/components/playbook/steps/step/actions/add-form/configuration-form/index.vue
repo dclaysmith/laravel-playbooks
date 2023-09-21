@@ -24,9 +24,6 @@
                                 v-for="(item, key) in definition"
                                 :definition="item"
                                 v-model="configuration[item.key]"
-                                @update:modelValue="
-                                    $emit('update:modelValue', $event)
-                                "
                             ></form-item>
                             <button
                                 class="btn btn-primary mx-2"

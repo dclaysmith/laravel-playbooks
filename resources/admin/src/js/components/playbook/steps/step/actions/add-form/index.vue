@@ -12,8 +12,8 @@
                     <option></option>
                     <option
                         v-for="actionClass in classes"
-                        :key="actionClass.className"
-                        :value="actionClass.className"
+                        :key="actionClass.namespace"
+                        :value="actionClass.namespace"
                     >
                         {{ actionClass.className }}
                     </option>
@@ -114,7 +114,7 @@ export default {
         const classDefinition = computed(() => {
             return classes.value.find(
                 (item) =>
-                    item.className == newPlaybookAction.value.action_class_name
+                    item.namespace == newPlaybookAction.value.action_class_name
             );
         });
 

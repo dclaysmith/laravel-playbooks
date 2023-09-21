@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class Condition
 {
-    abstract static function check(Model $model): Model;
+    abstract static function check(Model $model): mixed;
 }

@@ -29,7 +29,7 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
                     "Packages/LaravelPlaybooks/Conditions/IsAdminCondition.php"
                 ),
                 __DIR__ . "/../../src/Webhooks" => app_path(
-                    "Packages/LaravelPlaybooks/Webhooks"
+                    "Packages/LaravelPlaybooks/Webhooks/ExampleWebhook.php"
                 ),
                 __DIR__ . "/../../src/Scheduler.php" => app_path(
                     "Packages/LaravelPlaybooks/Scheduler.php"
@@ -71,6 +71,7 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
                 \Dclaysmith\LaravelPlaybooks\Commands\RunAudiences::class,
                 \Dclaysmith\LaravelPlaybooks\Commands\InsertNextSteps::class,
                 \Dclaysmith\LaravelPlaybooks\Commands\ProcessSteps::class,
+                \Dclaysmith\LaravelPlaybooks\Commands\ProcessActions::class,
             ]);
         }
 
