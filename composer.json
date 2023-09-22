@@ -1,33 +1,33 @@
 {
-    "name": "dclaysmith/laravel-playbooks",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "D Clay Smith",
-            "email": "dclaysmith@gmail.com"
-        }
-    ],
-    "require": {
-        "php": "^7.4|^8.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Dclaysmith\\LaravelPlaybooks\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Dclaysmith\\LaravelPlaybooks\\Tests\\": "tests"
-        }
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Dclaysmith\\LaravelPlaybooks\\Providers\\LaravelPlaybooksServiceProvider"
-            ]
-        }
+  "name": "dclaysmith/laravel-playbooks",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "D Clay Smith",
+      "email": "dclaysmith@gmail.com"
     }
+  ],
+  "require": {
+    "php": "^7.4|^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Dclaysmith\\LaravelPlaybooks\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Dclaysmith\\LaravelPlaybooks\\Tests\\": "tests"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Dclaysmith\\LaravelPlaybooks\\Providers\\LaravelPlaybooksServiceProvider"
+      ]
+    }
+  }
 }

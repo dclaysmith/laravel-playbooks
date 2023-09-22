@@ -1,17 +1,17 @@
 <template>
-    <div>
-        <p><router-link to="/audiences">&lt; Back</router-link></p>
-        <h2>Preview Audience</h2>
-        <table class="table" v-if="loaded && results.length">
-            <list-item
-                v-for="result in results"
-                :key="result.id"
-                :item="result"
-            ></list-item>
-        </table>
-        <p v-else-if="loaded">There are results for this audience.</p>
-        <p v-else>Loading...</p>
-    </div>
+  <div>
+    <p><router-link to="/audiences">&lt; Back</router-link></p>
+    <h2>Preview Audience</h2>
+    <table class="table" v-if="loaded && results.length">
+      <list-item
+        v-for="result in results"
+        :key="result.id"
+        :item="result"
+      ></list-item>
+    </table>
+    <p v-else-if="loaded">There are results for this audience.</p>
+    <p v-else>Loading...</p>
+  </div>
 </template>
 
 <script>
@@ -21,42 +21,41 @@ import { sortBy as _sortBy, filter as _filter, chain as _chain } from "lodash";
 import ListItem from "./list-item.vue";
 
 export default {
-    name: "Audience",
-    components: { ListItem },
-    props: ["className"],
-    setup(props) {
-        /**
-         * Reactive Properties
-         */
-        const results = ref([]);
-        const loaded = ref(false);
+  name: "Audience",
+  components: { ListItem },
+  props: ["className"],
+  setup(props) {
+    /**
+     * Reactive Properties
+     */
+    const results = ref([]);
+    const loaded = ref(false);
 
-        /**
-         * Methods
-         */
-        async function fetchResults() {
-            const response = await fetch(
-                "/api/lp-audience-data?class_name=" +
-                    encodeURIComponent(props.className)
-            );
-            loaded.value = true;
-            const json = await response.json();
-            results.value = json.data;
-        }
+    /**
+     * Methods
+     */
+    async function fetchResults() {
+      const response = await fetch(
+        "/api/lp-audience-data?class_name=" +
+          encodeURIComponent(props.className),
+      );
+      loaded.value = true;
+      const json = await response.json();
+      results.value = json.data;
+    }
 
-        fetchResults();
+    fetchResults();
 
-        /**
-         * Computed
-         */
+    /**
+     * Computed
+     */
 
-        return {
-            results,
-            loaded,
-        };
-    },
+    return {
+      results,
+      loaded,
+    };
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

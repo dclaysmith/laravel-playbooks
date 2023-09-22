@@ -13,7 +13,7 @@ const app = createApp(App).use(router).use(notifications).use(VueCookies);
 
 // look for laravel-cms-admin or default to body
 if (document.getElementById("laravel-playbooks-admin")) {
-    app.mount("#laravel-playbooks-admin");
+  app.mount("#laravel-playbooks-admin");
 } else {
-    app.mount("body");
+  app.mount("body");
 }

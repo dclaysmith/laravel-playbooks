@@ -22,7 +22,10 @@ use Dclaysmith\LaravelPlaybooks\Models\InstanceAction;
 
 class ProcessAction implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable,
+        InteractsWithQueue,
+        Queueable,
+        SerializesModels;
 
     protected $instanceAction;
 
@@ -34,9 +37,8 @@ class ProcessAction implements ShouldQueue
 
     public function handle()
     {
-        Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\ProcessAction: Id - " . $this->instanceAction->id);
-
-        // Log::debug($this->instanceAction->playbookAction);
+        Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\ProcessAction: Id - " .
+            $this->instanceAction->id);
 
         /**
          * Get the target
@@ -47,11 +49,15 @@ class ProcessAction implements ShouldQueue
          * Get the action class name
          */
         $className = $this->instanceAction->playbookAction->action_class_name;
-        
+
         /** 
          * Create an instance of the action 
          */
-        $action = new $className($this->instanceAction->playbookAction->configuration, $target);
+        $action = new $className(
+            $this->instanceAction,
+            $this->instanceAction->playbookAction->configuration,
+            $target
+        );
 
         /**
          * Execute the action

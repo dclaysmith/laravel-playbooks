@@ -2,6 +2,7 @@
 
 namespace Dclaysmith\LaravelPlaybooks\Actions;
 
+use Illuminate\Support\Facades\Log;
 use Dclaysmith\LaravelPlaybooks\Actions\Action;
 
 /*
@@ -13,7 +14,7 @@ class RequestWebhookAction extends Action
 
     public function do(): void
     {
-        \Log::debug('do request webhook action');
+        Log::debug('do request webhook action');
     }
 
     public static function definition(): array
@@ -54,7 +55,7 @@ class RequestWebhookAction extends Action
                 ];
             }
         }
-        
+
         return $webhooks;
     }
 }

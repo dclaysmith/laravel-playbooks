@@ -2,6 +2,7 @@
 
 namespace Dclaysmith\LaravelPlaybooks\Actions;
 
+use Illuminate\Support\Facades\Log;
 use Dclaysmith\LaravelPlaybooks\Actions\Action;
 
 class SendEmailAction extends Action
@@ -9,7 +10,7 @@ class SendEmailAction extends Action
 
     public function do(): void
     {
-        \Log::debug('do send email');
+        Log::debug('do send email');
     }
 
     public static function definition(): array
@@ -58,7 +59,7 @@ class SendEmailAction extends Action
                 ];
             }
         }
-        
+
         return $mailables;
     }
 }

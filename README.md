@@ -6,9 +6,9 @@ It provides the glue that will allow you to build multi-step workflows (playbook
 
 It is useful for orchestrating:
 
--   notifications;
--   onboarding processes;
--   dunning sequences;
+- notifications;
+- onboarding processes;
+- dunning sequences;
 
 ## Development
 
@@ -92,31 +92,31 @@ Use Notifiables
 
 Actions (publishable)
 
--   start
--   wait
--   email
--   sms
--   webhook
--   event (laravel event)
--   end
+- start
+- wait
+- email
+- sms
+- webhook
+- event (laravel event)
+- end
 
 Triggers
 The definition of a trigger. Includes:
 
--   QueryBuilder / Eloquent Builder defining the contacts in the sequence
-    () => {
-    return \App\Models\Documents::join('users', 'users.id', '=', 'documents.user_id')->select(['users.id AS user_id', 'users.email', 'documents.id AS document_id', 'documents.name']);
-    }
--   Identifier / A method that accepts the definition of the sequence and the results of the builder
-    ($definition, $item) => {
+- QueryBuilder / Eloquent Builder defining the contacts in the sequence
+  () => {
+  return \App\Models\Documents::join('users', 'users.id', '=', 'documents.user_id')->select(['users.id AS user_id', 'users.email', 'documents.id AS document_id', 'documents.name']);
+  }
+- Identifier / A method that accepts the definition of the sequence and the results of the builder
+  ($definition, $item) => {
     return implode('-', [
     'documents',
     $item->document_id,
-    $item->user_id
-    ]);
-    }
--   IsCustomer (onboarding)
--   LowHealth
+  $item->user_id
+  ]);
+  }
+- IsCustomer (onboarding)
+- LowHealth
 
 Artisan / Jobs
 php artisan laravel-sequences:run

@@ -17,19 +17,22 @@ use Illuminate\Support\Facades\Log;
 | Run any actions
 |
 */
+
 class ProcessActions implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function handle()
     {
+
         /**
          * Query the Actions
          */
-        $instanceActions = \Dclaysmith\LaravelPlaybooks\Models\InstanceAction::where(
-            "status_id",
-            \Dclaysmith\LaravelPlaybooks\Models\InstanceAction::STATUS_PENDING
-        )->get();
+        $instanceActions = \Dclaysmith\LaravelPlaybooks\Models\InstanceAction::join("lp_instances", "lp_instances.id", "=", "lp_instance_actions.lp_instance_id")
+            ->where(
+                "lp_instance_actions.status_id",
+                \Dclaysmith\LaravelPlaybooks\Models\InstanceAction::STATUS_PENDING
+            )->get();
 
         Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\ProcessActions - " . $instanceActions->count());
 

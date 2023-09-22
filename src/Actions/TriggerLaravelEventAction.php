@@ -2,6 +2,7 @@
 
 namespace Dclaysmith\LaravelPlaybooks\Actions;
 
+use Illuminate\Support\Facades\Log;
 use Dclaysmith\LaravelPlaybooks\Actions\Action;
 
 class TriggerLaravelEventAction extends Action
@@ -9,7 +10,7 @@ class TriggerLaravelEventAction extends Action
 
     public function do(): void
     {
-        \Log::debug('do trigger event');
+        Log::debug('do trigger event');
     }
 
     public static function definition(): array
@@ -50,7 +51,7 @@ class TriggerLaravelEventAction extends Action
                 ];
             }
         }
-        
+
         return $items;
     }
 }

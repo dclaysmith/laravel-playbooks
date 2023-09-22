@@ -2,20 +2,21 @@
 
 namespace Dclaysmith\LaravelPlaybooks\Actions;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
+use Dclaysmith\LaravelPlaybooks\Models\InstanceAction;
 
 abstract class Action
 {
+    protected $instanceAction;
 
     protected $model;
 
     protected $configuration;
 
-    public function __construct(?object $configuration, Model $model)
+    public function __construct(InstanceAction $instanceAction, ?object $configuration, Model $model)
     {
-
-        // \Log::debug(json_encode($configuration));
-        // \Log::debug(json_encode($model));
+        $this->instanceAction = $instanceAction;
 
         $this->configuration = $configuration;
 

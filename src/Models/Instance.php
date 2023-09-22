@@ -14,6 +14,7 @@ class Instance extends Model
     const STATUS_COMPLETED = 2;
     const STATUS_CANCELLED_AUDIENCE = 3;
     const STATUS_CANCELLED_MANUALLY = 4;
+    const STATUS_CANCELLED_ACTION = 5;
 
     /**
      * The table associated with the model.
@@ -55,7 +56,8 @@ class Instance extends Model
         );
     }
 
-    public function target() {
+    public function target()
+    {
         return $this->belongsTo(
             $this->playbook->target_class, // Dynamic
             "target_id"

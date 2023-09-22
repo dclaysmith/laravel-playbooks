@@ -4,13 +4,13 @@ id: monthly-report
 allow_concurrent: false
 allow_multiple: false
 target:
-    table: users
-    identifier: id
+  table: users
+  identifier: id
 audience:
-    - name: AllUsers
+  - name: AllUsers
 steps:
-    - name: Send Monthly Report
-      id: monthly-report
-      actions:
-          - type: Mail
-            mailable: MonthlyReport
+  - name: Send Monthly Report
+    id: monthly-report
+    actions:
+      - type: Mail
+        mailable: MonthlyReport

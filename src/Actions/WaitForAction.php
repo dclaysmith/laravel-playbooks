@@ -2,6 +2,7 @@
 
 namespace Dclaysmith\LaravelPlaybooks\Actions;
 
+use Illuminate\Support\Facades\Log;
 use Dclaysmith\LaravelPlaybooks\Actions\Action;
 
 class WaitForAction extends Action
@@ -9,7 +10,7 @@ class WaitForAction extends Action
 
     public function do(): void
     {
-        \Log::debug('do wait for');
+        Log::debug('do wait for');
     }
 
     public static function definition(): array
@@ -50,7 +51,7 @@ class WaitForAction extends Action
                 ];
             }
         }
-        
+
         return $items;
     }
 }
