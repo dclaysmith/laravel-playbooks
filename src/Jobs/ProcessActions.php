@@ -24,21 +24,34 @@ class ProcessActions implements ShouldQueue
 
     public function handle()
     {
+        Log::debug("donkey");
 
         /**
          * Query the Actions
          */
-        $instanceActions = \Dclaysmith\LaravelPlaybooks\Models\InstanceAction::join("lp_instances", "lp_instances.id", "=", "lp_instance_actions.lp_instance_id")
+        $instanceActions = \Dclaysmith\LaravelPlaybooks\Models\InstanceAction::join(
+            "lp_instances",
+            "lp_instances.id",
+            "=",
+            "lp_instance_actions.lp_instance_id"
+        )
             ->where(
                 "lp_instance_actions.status_id",
                 \Dclaysmith\LaravelPlaybooks\Models\InstanceAction::STATUS_PENDING
-            )->get();
-
-        Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\ProcessActions - " . $instanceActions->count());
+            )
+            ->where(
+                "lp_instances.status_id",
+                \Dclaysmith\LaravelPlaybooks\Models\Instance::STATUS_ACTIVE
+            )
+            ->select("lp_instance_actions.*")
+            ->get();
 
         foreach ($instanceActions as $instanceAction) {
-
-            dispatch(new \Dclaysmith\LaravelPlaybooks\Jobs\ProcessAction($instanceAction));
+            dispatch(
+                new \Dclaysmith\LaravelPlaybooks\Jobs\ProcessAction(
+                    $instanceAction
+                )
+            );
         }
     }
 }

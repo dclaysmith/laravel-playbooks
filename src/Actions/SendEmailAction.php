@@ -7,15 +7,14 @@ use Dclaysmith\LaravelPlaybooks\Actions\Action;
 
 class SendEmailAction extends Action
 {
-
     public function do(): void
     {
-        Log::debug('do send email');
+        Log::debug("do send email");
     }
 
     public static function definition(): array
     {
-        return  [
+        return [
             [
                 "key" => "mailable",
                 "type" => "select",
@@ -23,7 +22,7 @@ class SendEmailAction extends Action
                 "options" => SendEmailAction::mailables(),
                 "attributes" => [
                     "required" => true,
-                ]
+                ],
             ],
             [
                 "key" => "email",
@@ -31,16 +30,14 @@ class SendEmailAction extends Action
                 "label" => "Email Attribute Name",
                 "attributes" => [
                     "required" => true,
-                ]
+                ],
             ],
         ];
     }
 
     public static function mailables(): array
     {
-        $mailablesDirectory = config(
-            "laravel-playbooks.mailables_directory"
-        );
+        $mailablesDirectory = config("laravel-playbooks.mailables_directory");
 
         if (!file_exists($mailablesDirectory)) {
             return [];
@@ -50,12 +47,13 @@ class SendEmailAction extends Action
         foreach (new \DirectoryIterator($mailablesDirectory) as $file) {
             if ($file->isFile()) {
                 $className = str_replace(".php", "", $file->getFilename());
-                $namespaced = config(
-                    "laravel-playbooks.mailables_namespace"
-                ) . "\\" . $className;
+                $namespaced =
+                    config("laravel-playbooks.mailables_namespace") .
+                    "\\" .
+                    $className;
                 $mailables[] = (object) [
                     "value" => $namespaced,
-                    "label" => str_replace(".php", "", $file->getFilename())
+                    "label" => str_replace(".php", "", $file->getFilename()),
                 ];
             }
         }
