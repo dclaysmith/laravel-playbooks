@@ -7,10 +7,9 @@ use Dclaysmith\LaravelPlaybooks\Actions\Action;
 
 class WaitAction extends Action
 {
-
     public function do(): void
     {
-        Log::debug('do wait');
+        Log::debug("do wait");
     }
 
     public static function definition(): array
@@ -23,8 +22,8 @@ class WaitAction extends Action
                 "attributes" => [
                     "required" => true,
                     "min" => 1,
-                    "step" => 1
-                ]
+                    "step" => 1,
+                ],
             ],
         ];
     }

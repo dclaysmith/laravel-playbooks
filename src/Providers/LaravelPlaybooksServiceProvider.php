@@ -4,9 +4,15 @@ namespace Dclaysmith\LaravelPlaybooks\Providers;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
+use Dclaysmith\LaravelPlaybooks\Providers\EventServiceProvider;
 
 class LaravelPlaybooksServiceProvider extends ServiceProvider
 {
+    public function register()
+    {
+        $this->app->register(EventServiceProvider::class);
+    }
+
     public function boot()
     {
         /**
@@ -22,10 +28,12 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
                 __DIR__ . "/../../src/Actions/CustomAction.php" => app_path(
                     "Packages/LaravelPlaybooks/Actions/CustomAction.php"
                 ),
-                __DIR__ . "/../../src/Audiences/AllUsersAudience.php" => app_path(
+                __DIR__ .
+                "/../../src/Audiences/AllUsersAudience.php" => app_path(
                     "Packages/LaravelPlaybooks/Audiences/AllUsersAudience.php"
                 ),
-                __DIR__ . "/../../src/Conditions/IsAdminCondition.php" => app_path(
+                __DIR__ .
+                "/../../src/Conditions/IsAdminCondition.php" => app_path(
                     "Packages/LaravelPlaybooks/Conditions/IsAdminCondition.php"
                 ),
                 __DIR__ . "/../../src/Webhooks" => app_path(
@@ -75,12 +83,12 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
             ]);
         }
 
-        if (file_exists(app_path(
-            "Packages/LaravelPlaybooks/Scheduler.php"
-        ))) {
+        if (file_exists(app_path("Packages/LaravelPlaybooks/Scheduler.php"))) {
             $this->app->booted(function () {
                 $schedule = $this->app->make(Schedule::class);
-                $scheduler = new \App\Packages\LaravelPlaybooks\Scheduler($schedule);
+                $scheduler = new \App\Packages\LaravelPlaybooks\Scheduler(
+                    $schedule
+                );
                 $scheduler->run();
             });
         }

@@ -33,11 +33,6 @@ class ProcessAction implements ShouldQueue
 
     public function handle()
     {
-        Log::debug(
-            "Dclaysmith\LaravelPlaybooks\Jobs\ProcessAction: Id - " .
-                $this->instanceAction->id
-        );
-
         /**
          * Get the target
          */
@@ -56,6 +51,11 @@ class ProcessAction implements ShouldQueue
             $this->instanceAction->playbookAction->configuration,
             $target
         );
+
+        Log::debug([
+            "InstanceAction.id: " . $this->instanceAction->id,
+            "Class Name: " . $className,
+        ]);
 
         /**
          * Execute the action

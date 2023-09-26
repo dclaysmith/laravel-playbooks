@@ -14,8 +14,11 @@ abstract class Action
 
     protected $configuration;
 
-    public function __construct(InstanceAction $instanceAction, ?object $configuration, Model $model)
-    {
+    public function __construct(
+        InstanceAction $instanceAction,
+        ?object $configuration,
+        Model $model
+    ) {
         $this->instanceAction = $instanceAction;
 
         $this->configuration = $configuration;

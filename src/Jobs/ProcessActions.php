@@ -24,8 +24,6 @@ class ProcessActions implements ShouldQueue
 
     public function handle()
     {
-        Log::debug("donkey");
-
         /**
          * Query the Actions
          */
@@ -45,6 +43,8 @@ class ProcessActions implements ShouldQueue
             )
             ->select("lp_instance_actions.*")
             ->get();
+
+        Log::info(count($instanceActions) . " results found.");
 
         foreach ($instanceActions as $instanceAction) {
             dispatch(
