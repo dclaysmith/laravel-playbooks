@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,7 +12,6 @@ return new class extends Migration
      */
     public function up()
     {
-
         Schema::create("lp_playbooks", function (Blueprint $table) {
             $table->id();
             $table->string("name");
@@ -92,9 +90,7 @@ return new class extends Migration
                 ->constrained()
                 ->onDelete("CASCADE");
 
-            $table->integer("status_id")
-                ->nullable(true); # PENDING | COMPLETE | ERROR
-
+            $table->integer("status_id")->nullable(true); # PENDING | COMPLETE | ERROR
             $table->string("message");
             $table->jsonb("details");
 
@@ -112,16 +108,12 @@ return new class extends Migration
                 ->nullable(false)
                 ->constrained()
                 ->onDelete("CASCADE");
-            $table
-                ->string("target_id")
-                ->nullable(false);
+            $table->string("target_id")->nullable(false);
             $table->integer("status_id"); # IN PROGRESS | COMPLETE | FAILED
             $table->string("audience_class_name")->nullable(true);
             $table->timestamps();
 
             $table->index("lp_playbook_id");
-            $table->index("lp_playbook_step_id");
-            $table->index("lp_playbook_action_id");
         });
 
         Schema::create("lp_instance_steps", function (Blueprint $table) {
@@ -138,7 +130,6 @@ return new class extends Migration
                 ->onDelete("CASCADE");
 
             $table->integer("status_id"); # PENDING | COMPLETE | FAILED
-
             $table->datetime("completed_at")->nullable(true);
 
             $table->timestamps();
@@ -166,7 +157,6 @@ return new class extends Migration
                 ->onDelete("CASCADE");
 
             $table->integer("status_id"); # PENDING | COMPLETE | FAILED
-
             $table->datetime("completed_at")->nullable(true);
 
             $table->timestamps();

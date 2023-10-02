@@ -37,11 +37,12 @@ class ProcessSteps implements ShouldQueue
             \Dclaysmith\LaravelPlaybooks\Models\InstanceStep::STATUS_PENDING
         )->get();
 
-        Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\ProcessSteps - " . $instanceSteps->count());
+        Log::debug("Count - " . $instanceSteps->count());
 
         foreach ($instanceSteps as $instanceStep) {
-
-            dispatch(new \Dclaysmith\LaravelPlaybooks\Jobs\ProcessStep($instanceStep));
+            dispatch(
+                new \Dclaysmith\LaravelPlaybooks\Jobs\ProcessStep($instanceStep)
+            );
         }
     }
 }

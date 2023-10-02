@@ -1,7 +1,7 @@
 <?php
 /**
  * Provided as an example
- * Automatically copied to: 
+ * Automatically copied to:
  * /app/Packages/LaravelPlaybooks/Conditions
  */
 namespace App\Packages\LaravelPlaybooks\Conditions;
@@ -14,7 +14,7 @@ class IsAdminCondition extends Condition
     static function check(Model $model): mixed
     {
         if ($model->is_admin) {
-            return $model;
+            return true;
         }
 
         return false;

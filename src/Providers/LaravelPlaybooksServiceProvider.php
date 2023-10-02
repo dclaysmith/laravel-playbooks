@@ -36,7 +36,7 @@ class LaravelPlaybooksServiceProvider extends ServiceProvider
                 "/../../src/Conditions/IsAdminCondition.php" => app_path(
                     "Packages/LaravelPlaybooks/Conditions/IsAdminCondition.php"
                 ),
-                __DIR__ . "/../../src/Webhooks" => app_path(
+                __DIR__ . "/../../src/Webhooks/ExampleWebhook.php" => app_path(
                     "Packages/LaravelPlaybooks/Webhooks/ExampleWebhook.php"
                 ),
                 __DIR__ . "/../../src/Scheduler.php" => app_path(

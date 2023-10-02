@@ -29,22 +29,21 @@ class ProcessStep implements ShouldQueue
 
     protected $instanceStep;
 
-    public function __construct(
-        InstanceStep $instanceStep,
-    ) {
+    public function __construct(InstanceStep $instanceStep)
+    {
         $this->instanceStep = $instanceStep;
     }
 
     public function handle()
     {
-        Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\ProcessStep: Id - " . $this->instanceStep->id);
+        Log::debug("Id - " . $this->instanceStep->id);
 
         /**
          * Is there a condition?
          */
         $conditionResult = $this->evaluateCondition();
 
-        Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\ProcessStep: Condition Result - " . $conditionResult);
+        Log::debug("Condition Result - " . $conditionResult);
 
         /**
          * Actions associated with this step
@@ -54,17 +53,17 @@ class ProcessStep implements ShouldQueue
         /**
          * If True, Run True Steps
          */
-        if (TRUE === $conditionResult) {
-            
+        if (true === $conditionResult) {
             $filtered = $playbookActions->filter(function ($playbookAction) {
-                return $playbookAction->case == 'true';
+                return $playbookAction->case == "true";
             });
 
-            Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\ProcessStep: TRUE Count - " . count($filtered));
+            Log::debug("TRUE Count - " . count($filtered));
 
             foreach ($filtered as $playbookAction) {
-                $instanceAction = new InstanceAction;
-                $instanceAction->lp_instance_id = $this->instanceStep->lp_instance_id;
+                $instanceAction = new InstanceAction();
+                $instanceAction->lp_instance_id =
+                    $this->instanceStep->lp_instance_id;
                 $instanceAction->lp_instance_step_id = $this->instanceStep->id;
                 $instanceAction->lp_playbook_action_id = $playbookAction->id;
                 $instanceAction->status_id = InstanceAction::STATUS_PENDING;
@@ -73,19 +72,19 @@ class ProcessStep implements ShouldQueue
         }
 
         /**
-         * Else if False, Run False Steps
+         * If False, Run False Steps
          */
-        if (FALSE === $conditionResult) {
-
+        if (false === $conditionResult) {
             $filtered = $playbookActions->filter(function ($playbookAction) {
-                return $playbookAction->case == 'false';
+                return $playbookAction->case == "false";
             });
 
-            Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\ProcessStep: FALSE Count - " . count($filtered));
+            Log::debug("FALSE Count - " . count($filtered));
 
             foreach ($filtered as $playbookAction) {
-                $instanceAction = new InstanceAction;
-                $instanceAction->lp_instance_id = $this->instanceStep->lp_instance_id;
+                $instanceAction = new InstanceAction();
+                $instanceAction->lp_instance_id =
+                    $this->instanceStep->lp_instance_id;
                 $instanceAction->lp_instance_step_id = $this->instanceStep->id;
                 $instanceAction->lp_playbook_action_id = $playbookAction->id;
                 $instanceAction->status_id = InstanceAction::STATUS_PENDING;
@@ -97,52 +96,58 @@ class ProcessStep implements ShouldQueue
          * Add finally conditions
          */
         $filtered = $playbookActions->filter(function ($playbookAction) {
-            return $playbookAction->case == 'finally';
+            return $playbookAction->case == "finally";
         });
 
-        Log::debug("Dclaysmith\LaravelPlaybooks\Jobs\ProcessStep: FINALLY Count - " . count($filtered));
+        Log::debug("FINALLY Count - " . count($filtered));
 
         foreach ($filtered as $playbookAction) {
-            $instanceAction = new InstanceAction;
-            $instanceAction->lp_instance_id = $this->instanceStep->lp_instance_id;
+            $instanceAction = new InstanceAction();
+            $instanceAction->lp_instance_id =
+                $this->instanceStep->lp_instance_id;
             $instanceAction->lp_instance_step_id = $this->instanceStep->id;
             $instanceAction->lp_playbook_action_id = $playbookAction->id;
             $instanceAction->status_id = InstanceAction::STATUS_PENDING;
             $instanceAction->save();
-        }  
-        
-        $this->instanceStep->status_id = \Dclaysmith\LaravelPlaybooks\Models\InstanceStep::STATUS_COMPLETED;
-        $this->instanceStep->save();        
+        }
+
+        $this->instanceStep->status_id =
+            \Dclaysmith\LaravelPlaybooks\Models\InstanceStep::STATUS_ACTIONS_CREATED;
+        $this->instanceStep->save();
     }
 
-    private function evaluateCondition() {
-
+    private function evaluateCondition()
+    {
         Log::debug(
-            "Dclaysmith\LaravelPlaybooks\Jobs\ProcessStep->evaluateCondition() - condition_class_name " . 
-            $this->instanceStep->playbookStep->condition_class_name
+            "condition_class_name " .
+                $this->instanceStep->playbookStep->condition_class_name
         );
 
         /**
          * If there is no class name, evalutes as TRUE
          */
-        if (!$className = $this->instanceStep->playbookStep->condition_class_name) {
+        if (
+            !($className =
+                $this->instanceStep->playbookStep->condition_class_name)
+        ) {
             return true;
         }
 
         /**
          * Get the fully namesapced classname
          */
-        $namespacedClass = "\\App\\Packages\\LaravelPlaybooks\\Conditions\\" . $className;
+        $namespacedClass =
+            "\\App\\Packages\\LaravelPlaybooks\\Conditions\\" . $className;
 
-        /** 
-         * Create an instance of the condition 
+        /**
+         * Create an instance of the condition
          */
         $instance = new $namespacedClass();
 
         /**
          * Get an instance of the target
          */
-        if (!$target = $this->instanceStep->instance->target) {
+        if (!($target = $this->instanceStep->instance->target)) {
             throw new \Exception("No target instance.");
         }
 

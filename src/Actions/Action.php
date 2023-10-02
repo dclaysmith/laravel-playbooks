@@ -10,20 +10,20 @@ abstract class Action
 {
     protected $instanceAction;
 
-    protected $model;
+    protected $target;
 
     protected $configuration;
 
     public function __construct(
         InstanceAction $instanceAction,
         ?object $configuration,
-        Model $model
+        Model $target
     ) {
         $this->instanceAction = $instanceAction;
 
         $this->configuration = $configuration;
 
-        $this->model = $model;
+        $this->target = $target;
     }
 
     abstract function do(): void;

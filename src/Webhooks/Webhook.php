@@ -2,38 +2,34 @@
 
 namespace Dclaysmith\LaravelPlaybooks\Webhooks;
 
+use Spatie\WebhookServer\WebhookCall;
+
 use Illuminate\Database\Eloquent\Model;
 
-abstract class Webhooks
+abstract class Webhook
 {
+    public $url = "https://webhook.site/0ffee2e9-92ca-43bf-81de-018b29e2414f";
 
-    protected $url;
+    public $headers;
 
-    protected $headers;
+    public $target;
 
-    protected $callback;
+    public $configuration;
 
-    abstract function payload(Model $model): array;
+    abstract function payload(): array;
 
-    protected function send() {
+    abstract function headers(): array;
 
-        $options = [
-            'http' => [
-                'header' => array_unique(array_merge($this->headers, [
-                    "Content-type: application/x-www-form-urlencoded",])),
-                'method' => 'POST',
-                'content' => http_build_query($this->payload()),
-            ],
-        ];
-        
-        $context = stream_context_create($options);
-
-        $result = file_get_contents($this->url, false, $context);
-
-        if ($result === false) {
-            /* Handle error */
-        }
-        
-        var_dump($result);
+    public function send()
+    {
+        $result = WebhookCall::create()
+            ->url($this->url)
+            // ->meta([
+            //     "configuration" => $this->configuration,
+            //     "target" => $this->target,
+            // ])
+            ->payload($this->payload())
+            ->useSecret("sign-using-this-secret")
+            ->dispatchSync();
     }
 }

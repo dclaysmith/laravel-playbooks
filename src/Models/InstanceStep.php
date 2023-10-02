@@ -11,7 +11,8 @@ class InstanceStep extends Model
     use HasFactory;
 
     const STATUS_PENDING = 1;
-    const STATUS_COMPLETED = 2;
+    const STATUS_ACTIONS_CREATED = 2;
+    const STATUS_COMPLETED = 3;
 
     /**
      * The table associated with the model.
@@ -29,7 +30,7 @@ class InstanceStep extends Model
         "lp_instance_id",
         "lp_playbook_step_id",
         "status_id",
-        "completed_at"
+        "completed_at",
     ];
 
     /**

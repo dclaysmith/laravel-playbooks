@@ -37,7 +37,7 @@
       </button>
     </fieldset>
     <configuration-form
-      v-model:visible="showConfigurationEditor"
+      :visible="showConfigurationEditor"
       :definition="classDefinition?.configuration"
       v-model="configuration"
       @update-configuration="onConfigurationFormSubmit"
