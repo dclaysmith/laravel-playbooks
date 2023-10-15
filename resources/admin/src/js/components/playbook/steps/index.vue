@@ -76,14 +76,11 @@ export default {
 
     async function fetchPlaybookActionList() {
       const response = await fetch(
-        "/api/lp-playbook-actions?lp_playbook_id=" + props.playbook.id,
+        "/api/lp-playbook-actions?lp_playbook_id=" + props.playbook.id + "&sort_by=sort_order",
       );
       const json = await response.json();
       playbookActions.value = json.data;
 
-      /**
-       * Watch
-       */
       /**
        * Watch
        */

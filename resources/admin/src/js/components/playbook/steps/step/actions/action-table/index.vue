@@ -1,6 +1,6 @@
 <template>
   <table class="table">
-    <tfoot v-if="playbookActions.length == 0">
+    <tfoot v-if="playbookActionsClone.length == 0">
       <tr>
         <td>No actions yet.</td>
       </tr>
@@ -8,7 +8,7 @@
     <draggable
       v-else
       tag="tbody"
-      v-model="playbookActions"
+      v-model="playbookActionsClone"
       @start="drag = true"
       @end="drag = false"
       item-key="id"
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { ref, computed, inject } from "vue";
+import { ref, computed, inject, watch } from "vue";
 import { sortBy as _sortBy } from "lodash";
 import draggable from "vuedraggable";
 
@@ -45,13 +45,17 @@ export default {
     /**
      * Reactive Properties
      */
+    const playbookActionsClone = ref(props.playbookActions);
 
     /**
      * Methods
      */
     async function onChange(e) {
-      props.playbookActions.forEach((playbookAction, index) => {
-        playbookAction.sort_order = index;
+      playbookActionsClone.value.forEach((playbookAction, index) => {
+        let match = props.playbookActions.find(item => {
+          return item.id = playbookAction.id;
+        })
+        match.sort_order = index;
       });
     }
 
@@ -59,7 +63,28 @@ export default {
      * Computed
      */
 
-    return { onChange };
+
+    /**
+     * Watch
+     */
+    watch(
+      props.playbookActions,
+      (newValue, oldValue) => {
+        console.log('...changed 1');
+        playbookActionsClone.value = props.playbookActions;
+      },
+      { deep: true },
+    );
+
+    watch(
+      playbookActionsClone.value,
+      (newValue, oldValue) => {
+        console.log('...changed 2');
+      },
+      { deep: true },
+    );
+
+    return { onChange, playbookActionsClone };
   },
 };
 </script>

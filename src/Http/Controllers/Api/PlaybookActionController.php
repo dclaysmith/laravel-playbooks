@@ -41,7 +41,7 @@ class PlaybookActionController extends Controller
 
         $this->applyFilters($builder, $request, []);
 
-        $this->applySorts($builder, $request, [], [], []);
+        $this->applySorts($builder, $request, ["sort_order"], [], []);
 
         return PlaybookActionResource::collection(
             $this->applyPagination($builder, $request, 25, 100)
@@ -69,7 +69,10 @@ class PlaybookActionController extends Controller
         $data = $request->validated();
 
         $this->applyDefaults($data, [
-            "sort_order" => PlaybookAction::where("lp_playbook_id", $request->input('lp_playbook_id'))->count()
+            "sort_order" => PlaybookAction::where(
+                "lp_playbook_id",
+                $request->input("lp_playbook_id")
+            )->count(),
         ]);
 
         $playbookAction = PlaybookAction::firstOrCreate($data);
