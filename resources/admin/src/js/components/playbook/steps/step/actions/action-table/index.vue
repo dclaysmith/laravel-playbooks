@@ -55,7 +55,7 @@ export default {
         let match = props.playbookActions.find(item => {
           return item.id = playbookAction.id;
         })
-        match.sort_order = index;
+        playbookAction.sort_order = index;
       });
     }
 

@@ -15,4 +15,4 @@ yarn-error.log
 Homestead.json
 Homestead.yaml
 database/database.sqlite
-node_modules
+node_modules/

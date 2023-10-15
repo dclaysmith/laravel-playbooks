@@ -24,6 +24,9 @@ php artisan serve --host=localhost --port=8000
 cd /
 npm run dev
 
+cd /resources/admin
+npm run build
+
 #### Install the package in the LaravelPackageDev Project using composer
 
 "repositories": [
